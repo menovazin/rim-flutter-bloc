@@ -7,6 +7,7 @@ import '../../../di/di.dart';
 import '../../../domain/entities/location.dart';
 import '../../../routes/router.dart';
 import '../../../themes/app_theme.dart';
+import '../../../utils/extensions/location_type_x.dart';
 import '../../views/errors/grid_error_tile.dart';
 
 /// Locations catalog: list with infinite scroll.
@@ -118,7 +119,7 @@ class _LocationTile extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         leading: CircleAvatar(
           backgroundColor: designs.secondary.withValues(alpha: 0.18),
-          child: Icon(Icons.public_outlined, color: designs.secondary),
+          child: Icon(location.type.locationIcon, color: designs.secondary),
         ),
         title: Text(
           location.name,

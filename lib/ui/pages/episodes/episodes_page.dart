@@ -7,6 +7,7 @@ import '../../../di/di.dart';
 import '../../../domain/entities/episode.dart';
 import '../../../routes/router.dart';
 import '../../../themes/app_theme.dart';
+import '../../../utils/extensions/episode_code_x.dart';
 import '../../views/errors/grid_error_tile.dart';
 
 /// Episodes catalog: list with infinite scroll.
@@ -108,6 +109,9 @@ class _EpisodeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final designs = context.designs;
+    final s = episode.episodeCode.season;
+    final e = episode.episodeCode.episodeNumber;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
@@ -116,9 +120,35 @@ class _EpisodeTile extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        leading: CircleAvatar(
-          backgroundColor: designs.primary.withValues(alpha: 0.15),
-          child: Icon(Icons.movie_outlined, color: designs.primary),
+        leading: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: designs.primary.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'S${s.toString().padLeft(2, '0')}',
+                style: context.textTheme.labelSmall?.copyWith(
+                  color: designs.primary,
+                  fontWeight: FontWeight.w700,
+                  height: 1,
+                ),
+              ),
+              Text(
+                'E${e.toString().padLeft(2, '0')}',
+                style: context.textTheme.labelSmall?.copyWith(
+                  color: designs.primary.withValues(alpha: 0.6),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 10,
+                  height: 1.2,
+                ),
+              ),
+            ],
+          ),
         ),
         title: Text(
           episode.name,
@@ -130,7 +160,7 @@ class _EpisodeTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          '${episode.episodeCode} • ${episode.airDate}',
+          episode.airDate,
           style: context.textTheme.bodySmall?.copyWith(
             color: designs.textSecondary,
           ),

@@ -4,10 +4,9 @@ import 'package:pinch_to_zoom_scrollable/pinch_to_zoom_scrollable.dart';
 
 import '../../../domain/entities/episode.dart';
 import '../../../themes/app_theme.dart';
-import '../../views/detail/detail_widgets.dart';
+import '../../../utils/extensions/episode_code_x.dart';
+import '../../views/avatars/character_avatar_circle.dart';
 
-/// Episode detail screen (data passed from the list, no extra requests).
-/// Content is wrapped in `pinch_to_zoom_scrollable`.
 @RoutePage()
 class EpisodeDetailPage extends StatelessWidget {
   final Episode episode;
@@ -17,6 +16,9 @@ class EpisodeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final designs = context.designs;
+    final s = episode.episodeCode.season;
+    final e = episode.episodeCode.episodeNumber;
+
     return Scaffold(
       backgroundColor: designs.background,
       appBar: AppBar(
@@ -39,13 +41,60 @@ class EpisodeDetailPage extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: designs.surface,
+                  gradient: LinearGradient(
+                    colors: [
+                      designs.primary.withValues(alpha: 0.15),
+                      designs.surface,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.movie_outlined, color: designs.primary, size: 40),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: designs.primary,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'S${s.toString().padLeft(2, '0')}',
+                            style: context.textTheme.labelLarge?.copyWith(
+                              color: designs.onPrimary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: designs.primary.withValues(alpha: 0.4),
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'E${e.toString().padLeft(2, '0')}',
+                            style: context.textTheme.labelLarge?.copyWith(
+                              color: designs.primary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 12),
                     Text(
                       episode.name,
@@ -54,24 +103,34 @@ class EpisodeDetailPage extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
+                    const SizedBox(height: 4),
+                    Text(
+                      episode.airDate,
+                      style: context.textTheme.bodyMedium?.copyWith(
+                        color: designs.textSecondary,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-              DetailInfoRow(label: 'Код серии', value: episode.episodeCode),
-              DetailInfoRow(label: 'Дата выхода', value: episode.airDate),
-              const SizedBox(height: 16),
-              DetailSectionTitle(
-                title: 'Персонажи (${episode.characterIds.length})',
+              const SizedBox(height: 24),
+              Text(
+                'Персонажи (${episode.characterIds.length})',
+                style: context.textTheme.titleMedium?.copyWith(
+                  color: designs.primary,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  for (final id in episode.characterIds)
-                    DetailChip(label: '#$id'),
-                ],
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 48,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: episode.characterIds.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  itemBuilder: (_, i) =>
+                      CharacterAvatarCircle(characterId: episode.characterIds[i]),
+                ),
               ),
             ],
           ),

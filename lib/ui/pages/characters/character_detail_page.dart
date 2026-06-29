@@ -5,6 +5,7 @@ import 'package:pinch_to_zoom_scrollable/pinch_to_zoom_scrollable.dart';
 
 import '../../../domain/entities/character.dart';
 import '../../../themes/app_theme.dart';
+import '../../../utils/extensions/character_gender_x.dart';
 import '../../../utils/extensions/character_status_x.dart';
 import '../../views/detail/detail_widgets.dart';
 
@@ -84,7 +85,10 @@ class CharacterDetailPage extends StatelessWidget {
               DetailInfoRow(label: 'Вид', value: character.species),
               if (character.type.isNotEmpty)
                 DetailInfoRow(label: 'Тип', value: character.type),
-              DetailInfoRow(label: 'Пол', value: character.gender),
+              DetailInfoRow(
+                label: 'Пол',
+                value: '${character.genderSymbol}  ${character.gender}',
+              ),
               DetailInfoRow(label: 'Происхождение', value: character.originName),
               DetailInfoRow(label: 'Локация', value: character.locationName),
               const SizedBox(height: 16),
@@ -97,7 +101,7 @@ class CharacterDetailPage extends StatelessWidget {
                 runSpacing: 8,
                 children: [
                   for (final id in character.episodeIds)
-                    DetailChip(label: 'EP $id'),
+                    DetailChip(label: 'E${id.toString().padLeft(2, '0')}'),
                 ],
               ),
             ],
