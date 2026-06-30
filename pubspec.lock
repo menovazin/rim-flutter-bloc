@@ -404,7 +404,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_native_splash:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_native_splash
       sha256: "4fb9f4113350d3a80841ce05ebf1976a36de622af7d19aca0ca9a9911c7ff002"
@@ -981,6 +981,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  rename_app:
+    dependency: "direct dev"
+    description:
+      name: rename_app
+      sha256: "9df79b531a59124f3ec60316385809f79835eccf934a1ca7051f602a988acade"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.6.6"
   retrofit:
     dependency: "direct main"
     description:

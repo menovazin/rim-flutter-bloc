@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../../../di/di.dart';
 import '../../../routes/router.dart';
@@ -36,6 +37,9 @@ class _SplashPageState extends State<SplashPage> {
     } else {
       await context.router.replaceAll([const LoginRoute()]);
     }
+
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    FlutterNativeSplash.remove();
   }
 
   @override
