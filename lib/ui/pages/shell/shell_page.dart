@@ -68,10 +68,10 @@ class _ShellPageState extends State<ShellPage> {
             backgroundColor: designs.background,
             appBar: AppBar(
               backgroundColor: designs.background,
+              centerTitle: true,
               leading: IconButton(
                 icon: Icon(Icons.menu, color: designs.textPrimary),
                 onPressed: () => _menuController.open(),
-
               ),
               title: Text(
                 _titles[tabsRouter.activeIndex],

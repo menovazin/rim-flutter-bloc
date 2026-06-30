@@ -103,13 +103,14 @@ class LocationDetailPage extends StatelessWidget {
                 )
               else
                 SizedBox(
-                  height: 48,
+                  height: 72,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: location.residentIds.length,
                     separatorBuilder: (_, __) => const SizedBox(width: 8),
                     itemBuilder: (_, i) => CharacterAvatarCircle(
                       characterId: location.residentIds[i],
+                      name: '#${location.residentIds[i]}',
                     ),
                   ),
                 ),

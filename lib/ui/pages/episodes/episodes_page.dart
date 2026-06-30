@@ -48,13 +48,15 @@ class _EpisodesPageState extends State<EpisodesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final designs = context.designs;
     return BlocProvider.value(
       value: _cubit,
       child: BlocBuilder<EpisodesCubit, EpisodesState>(
         builder: (context, state) {
           if (state.isBusy && state.items.isEmpty) {
-
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(color: designs.primary),
+            );
           }
 
           if (state.hasError && state.items.isEmpty) {
@@ -80,10 +82,12 @@ class _EpisodesPageState extends State<EpisodesPage> {
                 ),
               ),
               if (state.isLoadingMore)
-                const SliverToBoxAdapter(
+                SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Center(child: CircularProgressIndicator()),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Center(
+                      child: CircularProgressIndicator(color: designs.primary),
+                    ),
                   ),
                 ),
               if (state.hasError && state.items.isNotEmpty)

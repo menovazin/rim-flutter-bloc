@@ -123,13 +123,15 @@ class EpisodeDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               SizedBox(
-                height: 48,
+                height: 72,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: episode.characterIds.length,
                   separatorBuilder: (_, __) => const SizedBox(width: 8),
-                  itemBuilder: (_, i) =>
-                      CharacterAvatarCircle(characterId: episode.characterIds[i]),
+                  itemBuilder: (_, i) => CharacterAvatarCircle(
+                    characterId: episode.characterIds[i],
+                    name: '#${episode.characterIds[i]}',
+                  ),
                 ),
               ),
             ],
