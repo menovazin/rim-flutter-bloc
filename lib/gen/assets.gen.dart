@@ -14,47 +14,19 @@ import 'package:flutter/widgets.dart';
 class $AssetsBrandingGen {
   const $AssetsBrandingGen();
 
-  /// File path: assets/branding/icon.png
-  AssetGenImage get icon => const AssetGenImage('assets/branding/icon.png');
+  /// File path: assets/branding/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/branding/logo.png');
 
-  /// File path: assets/branding/splash_icon.png
-  AssetGenImage get splashIcon =>
-      const AssetGenImage('assets/branding/splash_icon.png');
+  /// File path: assets/branding/logo_android_12.png
+  AssetGenImage get logoAndroid12 =>
+      const AssetGenImage('assets/branding/logo_android_12.png');
 
-  /// File path: assets/branding/splash_icon_android_12.png
-  AssetGenImage get splashIconAndroid12 =>
-      const AssetGenImage('assets/branding/splash_icon_android_12.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [icon, splashIcon, splashIconAndroid12];
-}
-
-class $AssetsIconsGen {
-  const $AssetsIconsGen();
-
-  /// File path: assets/icons/icon.png
-  AssetGenImage get icon => const AssetGenImage('assets/icons/icon.png');
+  /// File path: assets/branding/logo_splash.png
+  AssetGenImage get logoSplash =>
+      const AssetGenImage('assets/branding/logo_splash.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [icon];
-}
-
-class $AssetsImagesGen {
-  const $AssetsImagesGen();
-
-  /// File path: assets/images/background-dark.webp
-  AssetGenImage get backgroundDark =>
-      const AssetGenImage('assets/images/background-dark.webp');
-
-  /// File path: assets/images/background-light.webp
-  AssetGenImage get backgroundLight =>
-      const AssetGenImage('assets/images/background-light.webp');
-
-  /// File path: assets/images/image.png
-  AssetGenImage get image => const AssetGenImage('assets/images/image.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [backgroundDark, backgroundLight, image];
+  List<AssetGenImage> get values => [logo, logoAndroid12, logoSplash];
 }
 
 class $AssetsLottieGen {
@@ -67,24 +39,11 @@ class $AssetsLottieGen {
   List<String> get values => [progressBar];
 }
 
-class $AssetsSvgGen {
-  const $AssetsSvgGen();
-
-  /// File path: assets/svg/smile.svg
-  String get smile => 'assets/svg/smile.svg';
-
-  /// List of all assets
-  List<String> get values => [smile];
-}
-
 class Assets {
   const Assets._();
 
   static const $AssetsBrandingGen branding = $AssetsBrandingGen();
-  static const $AssetsIconsGen icons = $AssetsIconsGen();
-  static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
-  static const $AssetsSvgGen svg = $AssetsSvgGen();
 }
 
 class AssetGenImage {
