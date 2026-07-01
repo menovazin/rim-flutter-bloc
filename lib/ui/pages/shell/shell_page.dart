@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_drawer_menu/flutter_drawer_menu.dart';
 
+import '../../../core/settings/settings_state.dart';
 import '../../../di/di.dart';
 import '../../../routes/router.dart';
 import '../../../services/storage/token/token_service.dart';
@@ -107,8 +108,9 @@ class _Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     final designs = context.designs;
     return ColoredBox(
-      // Sidebar token from styles.css (darkest teal).
-      color: const Color(0xFF0B1618),
+      color: Theme.of(context).brightness == Brightness.dark 
+          ? const Color(0xFF0B1618) 
+          : designs.surface,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -127,6 +129,16 @@ class _Menu extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Icons.light_mode_outlined
+                          : Icons.dark_mode_outlined,
+                      color: designs.textPrimary,
+                      size: 24,
+                    ),
+                    onPressed: () => locator<SettingsState>().switchTheme(),
                   ),
                 ],
               ),

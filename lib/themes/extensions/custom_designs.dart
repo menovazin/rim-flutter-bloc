@@ -38,10 +38,39 @@ class CustomDesigns extends ThemeExtension<CustomDesigns> {
     required this.gradientAppBar,
   });
 
-  /// Rick & Morty look: portal-green primary + neon-purple secondary on a
-  /// deep teal background. Both factories share the same (dark) palette so the
-  /// app keeps the intended look regardless of the persisted theme setting.
-  factory CustomDesigns.light() => CustomDesigns.dark();
+  factory CustomDesigns.light() {
+    final base = BaseDesigns.instance;
+    return CustomDesigns._(
+      primary: const Color(0xFF28C76F), // slightly tweaked green for light theme
+      secondary: base.spicedBrick, 
+      background: const Color(0xFFF3F4F6), 
+      surface: const Color(0xFFFFFFFF), 
+      error: base.error,
+      onPrimary: const Color(0xFFFFFFFF),
+      onSecondary: const Color(0xFFFFFFFF),
+      onBackground: base.abyssBlack,
+      onSurface: base.abyssBlack,
+      onError: const Color(0xFFFFFFFF),
+      textPrimary: base.abyssBlack, 
+      textSecondary: const Color(0xFF6B7280), 
+      textDisabled: const Color(0xFF9CA3AF),
+      gradientButton: LinearGradient(
+        colors: [const Color(0xFF28C76F), base.spicedBrick],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+      ),
+      gradientInactiveButton: const LinearGradient(
+        colors: [Color(0xFFE5E7EB), Color(0xFFD1D5DB)],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+      ),
+      gradientAppBar: const LinearGradient(
+        colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF)],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+    );
+  }
 
   factory CustomDesigns.dark() {
     final base = BaseDesigns.instance;

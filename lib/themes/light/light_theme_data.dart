@@ -16,6 +16,7 @@ ThemeData _lightThemeData({String? fontFamily}) {
   return ThemeData(
     useMaterial3: true,
     primaryColor: design.background,
+    brightness: Brightness.light,
     appBarTheme: AppBarTheme(
       elevation: 0,
       iconTheme: IconThemeData(
@@ -30,6 +31,7 @@ ThemeData _lightThemeData({String? fontFamily}) {
         color: design.onSurface,
       ),
       backgroundColor: design.background,
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
     ),
     buttonTheme: ButtonThemeData(
       colorScheme: colorScheme,
