@@ -2,13 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di/di.dart';
+import '../../../l10n/localization_helper.dart';
 import '../../../routes/router.dart';
 import '../../../services/storage/token/token_service.dart';
 import '../../../themes/app_theme.dart';
 
 /// Fake login screen (no real authentication).
 ///
-/// On "Войти" it generates a fake token, persists it in
+/// On "Sign In" it generates a fake token, persists it in
 /// `flutter_secure_storage` (via [TokenService]) and navigates to the main
 /// shell — regardless of the entered name (or an empty one).
 @RoutePage()
@@ -73,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Войдите, чтобы открыть портал',
+                    context.strings.loginSubtitle,
                     textAlign: TextAlign.center,
                     style: context.textTheme.bodyMedium?.copyWith(
                       color: designs.textSecondary,
@@ -86,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     onSubmitted: (_) => _onLogin(),
                     style: TextStyle(color: designs.textPrimary),
                     decoration: InputDecoration(
-                      labelText: 'Имя',
+                      labelText: context.strings.loginNameLabel,
                       labelStyle: TextStyle(color: designs.textSecondary),
                       filled: true,
                       fillColor: designs.surface,
@@ -129,9 +130,9 @@ class _LoginPageState extends State<LoginPage> {
                               height: 22,
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
-                          : const Text(
-                              'Войти',
-                              style: TextStyle(
+                          : Text(
+                              context.strings.loginSignInButton,
+                              style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),

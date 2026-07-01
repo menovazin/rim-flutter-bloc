@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pinch_to_zoom_scrollable/pinch_to_zoom_scrollable.dart';
 
 import '../../../domain/entities/location.dart';
+import '../../../l10n/localization_helper.dart';
 import '../../../themes/app_theme.dart';
 import '../../../utils/extensions/location_type_x.dart';
 import '../../views/avatars/character_avatar_circle.dart';
@@ -87,7 +88,7 @@ class LocationDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                'Резиденты (${location.residentIds.length})',
+                context.strings.sectionResidentsCount(location.residentIds.length),
                 style: context.textTheme.titleMedium?.copyWith(
                   color: designs.primary,
                   fontWeight: FontWeight.w700,
@@ -96,7 +97,7 @@ class LocationDetailPage extends StatelessWidget {
               const SizedBox(height: 12),
               if (location.residentIds.isEmpty)
                 Text(
-                  'Нет резидентов',
+                  context.strings.noResidentsMessage,
                   style: context.textTheme.bodyMedium?.copyWith(
                     color: designs.textSecondary,
                   ),

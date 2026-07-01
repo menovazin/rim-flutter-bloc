@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pinch_to_zoom_scrollable/pinch_to_zoom_scrollable.dart';
 
 import '../../../domain/entities/episode.dart';
+import '../../../l10n/localization_helper.dart';
 import '../../../themes/app_theme.dart';
 import '../../../utils/extensions/episode_code_x.dart';
 import '../../views/avatars/character_avatar_circle.dart';
@@ -115,7 +116,7 @@ class EpisodeDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                'Персонажи (${episode.characterIds.length})',
+                context.strings.sectionCharactersCount(episode.characterIds.length),
                 style: context.textTheme.titleMedium?.copyWith(
                   color: designs.primary,
                   fontWeight: FontWeight.w700,

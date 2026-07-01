@@ -12,22 +12,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get flag => '🇬🇧';
 
   @override
-  String get languages => 'Languages';
-
-  @override
   String get languageName => 'English';
-
-  @override
-  String get fonts => 'Fonts';
-
-  @override
-  String get serverErrorMessage => 'Server error occurred';
-
-  @override
-  String get errorInternetConnection => 'Internet Connection Error';
-
-  @override
-  String get settings => 'Settings';
 
   @override
   String get theme => 'Theme';
@@ -42,95 +27,77 @@ class AppLocalizationsEn extends AppLocalizations {
   String get system => 'Use device settings';
 
   @override
-  String get oops => 'Ooops...';
-
-  @override
-  String get somethingWentWrong =>
-      'Something went wrong. Try again later or update the screen';
-
-  @override
-  String get weakPassword => 'The password provided is too weak.';
-
-  @override
-  String get emailAlreadyInUse => 'The account already exists for that email.';
-
-  @override
-  String get userNotFound => 'No user found for that email.';
-
-  @override
-  String get invalidCredential =>
-      'Incorrect email or password. Please try again or register an account with this email.';
-
-  @override
-  String get wrongPassword => 'Wrong password provided for that user.';
-
-  @override
-  String get noneAuthException => 'Incorrect credential';
-
-  @override
-  String get fieldErrorPasswordNumbers => 'Password must be include numbers';
-
-  @override
-  String get fieldErrorPasswordRegex => 'Valid characters: \"A-Z, a-z, 0-9\"';
-
-  @override
-  String get fieldErrorPasswordMatch =>
-      '*Passwords need to match. Please try again.';
-
-  @override
   String get fieldMustNotEmpty => 'Field must not be empty';
 
   @override
   String get incorrectEmail => 'Incorrect email';
 
   @override
-  String get confirm => 'confirm';
+  String get confirm => 'Confirm';
 
   @override
-  String get cancel => 'cancel';
+  String get cancel => 'Cancel';
 
   @override
-  String get ok => 'OK';
+  String get tabCharacters => 'Characters';
 
   @override
-  String get verification => 'Verification';
+  String get tabEpisodes => 'Episodes';
 
   @override
-  String get startPage => 'Start Page';
+  String get tabLocations => 'Locations';
 
   @override
-  String get crashLogs => 'Crash Logs';
+  String get menuSignOut => 'Sign Out';
 
   @override
-  String get viewCrashLogs => 'View crash logs';
+  String get loginTitle => 'Rick & Morty';
 
   @override
-  String get noCrashLogsFound => 'No crash logs found';
+  String get loginSubtitle => 'Sign in to open the portal';
 
   @override
-  String get exportLogs => 'Export Logs';
+  String get loginNameLabel => 'Name';
 
   @override
-  String get clearLogs => 'Clear Logs';
+  String get loginSignInButton => 'Sign In';
 
   @override
-  String get confirmClearLogs => 'Are you sure you want to clear crash logs?';
+  String get detailSpecies => 'Species';
 
   @override
-  String get logsExported => 'Logs exported successfully';
+  String get detailType => 'Type';
 
   @override
-  String get logsCleared => 'Logs cleared successfully';
+  String get detailGender => 'Gender';
 
   @override
-  String get appLogs => 'App Logs';
+  String get detailOrigin => 'Origin';
 
   @override
-  String get viewAppLogs => 'View app logs';
+  String get detailLocation => 'Location';
 
   @override
-  String get noAppLogsFound => 'No app logs found';
+  String sectionEpisodesCount(int count) {
+    return 'Episodes ($count)';
+  }
 
   @override
-  String get confirmClearAppLogs => 'Are you sure you want to clear app logs?';
+  String sectionResidentsCount(int count) {
+    return 'Residents ($count)';
+  }
+
+  @override
+  String sectionCharactersCount(int count) {
+    return 'Characters ($count)';
+  }
+
+  @override
+  String get noResidentsMessage => 'No residents';
+
+  @override
+  String get errorLoadDataMessage => 'Failed to load data';
+
+  @override
+  String get retryButton => 'Retry';
 }

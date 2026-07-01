@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pinch_to_zoom_scrollable/pinch_to_zoom_scrollable.dart';
 
 import '../../../domain/entities/character.dart';
+import '../../../l10n/localization_helper.dart';
 import '../../../themes/app_theme.dart';
 import '../../../utils/extensions/character_gender_x.dart';
 import '../../../utils/extensions/character_status_x.dart';
@@ -82,18 +83,18 @@ class CharacterDetailPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              DetailInfoRow(label: 'Вид', value: character.species),
+              DetailInfoRow(label: context.strings.detailSpecies, value: character.species),
               if (character.type.isNotEmpty)
-                DetailInfoRow(label: 'Тип', value: character.type),
+                DetailInfoRow(label: context.strings.detailType, value: character.type),
               DetailInfoRow(
-                label: 'Пол',
+                label: context.strings.detailGender,
                 value: '${character.genderSymbol}  ${character.gender}',
               ),
-              DetailInfoRow(label: 'Происхождение', value: character.originName),
-              DetailInfoRow(label: 'Локация', value: character.locationName),
+              DetailInfoRow(label: context.strings.detailOrigin, value: character.originName),
+              DetailInfoRow(label: context.strings.detailLocation, value: character.locationName),
               const SizedBox(height: 16),
               DetailSectionTitle(
-                title: 'Эпизоды (${character.episodeIds.length})',
+                title: context.strings.sectionEpisodesCount(character.episodeIds.length),
               ),
               const SizedBox(height: 8),
               Wrap(

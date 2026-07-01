@@ -4,6 +4,7 @@ import 'package:flutter_drawer_menu/flutter_drawer_menu.dart';
 
 import '../../../core/settings/settings_state.dart';
 import '../../../di/di.dart';
+import '../../../l10n/localization_helper.dart';
 import '../../../routes/router.dart';
 import '../../../services/storage/token/token_service.dart';
 import '../../../themes/app_theme.dart';
@@ -24,7 +25,6 @@ class ShellPage extends StatefulWidget {
 class _ShellPageState extends State<ShellPage> {
   final _menuController = DrawerMenuController();
 
-  static const _titles = ['Персонажи', 'Эпизоды', 'Локации'];
   static const _icons = [
     Icons.people_alt_outlined,
     Icons.movie_outlined,
@@ -40,6 +40,11 @@ class _ShellPageState extends State<ShellPage> {
   @override
   Widget build(BuildContext context) {
     final designs = context.designs;
+    final titles = [
+      context.strings.tabCharacters,
+      context.strings.tabEpisodes,
+      context.strings.tabLocations,
+    ];
     return AutoTabsRouter(
       routes: const [
         CharactersRoute(),
@@ -54,7 +59,7 @@ class _ShellPageState extends State<ShellPage> {
           scrimColor: Colors.black.withValues(alpha: 0.4),
           menu: _Menu(
             activeIndex: tabsRouter.activeIndex,
-            titles: _titles,
+            titles: titles,
             icons: _icons,
             onSelect: (index) {
               tabsRouter.setActiveIndex(index);
@@ -75,7 +80,7 @@ class _ShellPageState extends State<ShellPage> {
                 onPressed: () => _menuController.open(),
               ),
               title: Text(
-                _titles[tabsRouter.activeIndex],
+                titles[tabsRouter.activeIndex],
                 style: context.textTheme.titleLarge?.copyWith(
                   color: designs.textPrimary,
                 ),
@@ -155,7 +160,7 @@ class _Menu extends StatelessWidget {
             Divider(color: designs.textSecondary.withValues(alpha: 0.15)),
             _MenuItem(
               icon: Icons.logout,
-              title: 'Выйти',
+              title: context.strings.menuSignOut,
               active: false,
               onTap: onLogout,
             ),

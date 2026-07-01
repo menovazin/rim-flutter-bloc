@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_es.dart';
 
 // ignore_for_file: type=lint
 
@@ -93,10 +92,7 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('es')
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
   /// No description provided for @flag.
   ///
@@ -104,41 +100,11 @@ abstract class AppLocalizations {
   /// **'🇬🇧'**
   String get flag;
 
-  /// No description provided for @languages.
-  ///
-  /// In en, this message translates to:
-  /// **'Languages'**
-  String get languages;
-
   /// No description provided for @languageName.
   ///
   /// In en, this message translates to:
   /// **'English'**
   String get languageName;
-
-  /// No description provided for @fonts.
-  ///
-  /// In en, this message translates to:
-  /// **'Fonts'**
-  String get fonts;
-
-  /// No description provided for @serverErrorMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Server error occurred'**
-  String get serverErrorMessage;
-
-  /// No description provided for @errorInternetConnection.
-  ///
-  /// In en, this message translates to:
-  /// **'Internet Connection Error'**
-  String get errorInternetConnection;
-
-  /// No description provided for @settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
 
   /// No description provided for @theme.
   ///
@@ -164,72 +130,6 @@ abstract class AppLocalizations {
   /// **'Use device settings'**
   String get system;
 
-  /// No description provided for @oops.
-  ///
-  /// In en, this message translates to:
-  /// **'Ooops...'**
-  String get oops;
-
-  /// No description provided for @somethingWentWrong.
-  ///
-  /// In en, this message translates to:
-  /// **'Something went wrong. Try again later or update the screen'**
-  String get somethingWentWrong;
-
-  /// No description provided for @weakPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'The password provided is too weak.'**
-  String get weakPassword;
-
-  /// No description provided for @emailAlreadyInUse.
-  ///
-  /// In en, this message translates to:
-  /// **'The account already exists for that email.'**
-  String get emailAlreadyInUse;
-
-  /// No description provided for @userNotFound.
-  ///
-  /// In en, this message translates to:
-  /// **'No user found for that email.'**
-  String get userNotFound;
-
-  /// No description provided for @invalidCredential.
-  ///
-  /// In en, this message translates to:
-  /// **'Incorrect email or password. Please try again or register an account with this email.'**
-  String get invalidCredential;
-
-  /// No description provided for @wrongPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Wrong password provided for that user.'**
-  String get wrongPassword;
-
-  /// No description provided for @noneAuthException.
-  ///
-  /// In en, this message translates to:
-  /// **'Incorrect credential'**
-  String get noneAuthException;
-
-  /// No description provided for @fieldErrorPasswordNumbers.
-  ///
-  /// In en, this message translates to:
-  /// **'Password must be include numbers'**
-  String get fieldErrorPasswordNumbers;
-
-  /// No description provided for @fieldErrorPasswordRegex.
-  ///
-  /// In en, this message translates to:
-  /// **'Valid characters: \"A-Z, a-z, 0-9\"'**
-  String get fieldErrorPasswordRegex;
-
-  /// No description provided for @fieldErrorPasswordMatch.
-  ///
-  /// In en, this message translates to:
-  /// **'*Passwords need to match. Please try again.'**
-  String get fieldErrorPasswordMatch;
-
   /// No description provided for @fieldMustNotEmpty.
   ///
   /// In en, this message translates to:
@@ -245,104 +145,128 @@ abstract class AppLocalizations {
   /// No description provided for @confirm.
   ///
   /// In en, this message translates to:
-  /// **'confirm'**
+  /// **'Confirm'**
   String get confirm;
 
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
-  /// **'cancel'**
+  /// **'Cancel'**
   String get cancel;
 
-  /// No description provided for @ok.
+  /// No description provided for @tabCharacters.
   ///
   /// In en, this message translates to:
-  /// **'OK'**
-  String get ok;
+  /// **'Characters'**
+  String get tabCharacters;
 
-  /// No description provided for @verification.
+  /// No description provided for @tabEpisodes.
   ///
   /// In en, this message translates to:
-  /// **'Verification'**
-  String get verification;
+  /// **'Episodes'**
+  String get tabEpisodes;
 
-  /// No description provided for @startPage.
+  /// No description provided for @tabLocations.
   ///
   /// In en, this message translates to:
-  /// **'Start Page'**
-  String get startPage;
+  /// **'Locations'**
+  String get tabLocations;
 
-  /// No description provided for @crashLogs.
+  /// No description provided for @menuSignOut.
   ///
   /// In en, this message translates to:
-  /// **'Crash Logs'**
-  String get crashLogs;
+  /// **'Sign Out'**
+  String get menuSignOut;
 
-  /// No description provided for @viewCrashLogs.
+  /// No description provided for @loginTitle.
   ///
   /// In en, this message translates to:
-  /// **'View crash logs'**
-  String get viewCrashLogs;
+  /// **'Rick & Morty'**
+  String get loginTitle;
 
-  /// No description provided for @noCrashLogsFound.
+  /// No description provided for @loginSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'No crash logs found'**
-  String get noCrashLogsFound;
+  /// **'Sign in to open the portal'**
+  String get loginSubtitle;
 
-  /// No description provided for @exportLogs.
+  /// No description provided for @loginNameLabel.
   ///
   /// In en, this message translates to:
-  /// **'Export Logs'**
-  String get exportLogs;
+  /// **'Name'**
+  String get loginNameLabel;
 
-  /// No description provided for @clearLogs.
+  /// No description provided for @loginSignInButton.
   ///
   /// In en, this message translates to:
-  /// **'Clear Logs'**
-  String get clearLogs;
+  /// **'Sign In'**
+  String get loginSignInButton;
 
-  /// No description provided for @confirmClearLogs.
+  /// No description provided for @detailSpecies.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to clear crash logs?'**
-  String get confirmClearLogs;
+  /// **'Species'**
+  String get detailSpecies;
 
-  /// No description provided for @logsExported.
+  /// No description provided for @detailType.
   ///
   /// In en, this message translates to:
-  /// **'Logs exported successfully'**
-  String get logsExported;
+  /// **'Type'**
+  String get detailType;
 
-  /// No description provided for @logsCleared.
+  /// No description provided for @detailGender.
   ///
   /// In en, this message translates to:
-  /// **'Logs cleared successfully'**
-  String get logsCleared;
+  /// **'Gender'**
+  String get detailGender;
 
-  /// No description provided for @appLogs.
+  /// No description provided for @detailOrigin.
   ///
   /// In en, this message translates to:
-  /// **'App Logs'**
-  String get appLogs;
+  /// **'Origin'**
+  String get detailOrigin;
 
-  /// No description provided for @viewAppLogs.
+  /// No description provided for @detailLocation.
   ///
   /// In en, this message translates to:
-  /// **'View app logs'**
-  String get viewAppLogs;
+  /// **'Location'**
+  String get detailLocation;
 
-  /// No description provided for @noAppLogsFound.
+  /// No description provided for @sectionEpisodesCount.
   ///
   /// In en, this message translates to:
-  /// **'No app logs found'**
-  String get noAppLogsFound;
+  /// **'Episodes ({count})'**
+  String sectionEpisodesCount(int count);
 
-  /// No description provided for @confirmClearAppLogs.
+  /// No description provided for @sectionResidentsCount.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to clear app logs?'**
-  String get confirmClearAppLogs;
+  /// **'Residents ({count})'**
+  String sectionResidentsCount(int count);
+
+  /// No description provided for @sectionCharactersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Characters ({count})'**
+  String sectionCharactersCount(int count);
+
+  /// No description provided for @noResidentsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No residents'**
+  String get noResidentsMessage;
+
+  /// No description provided for @errorLoadDataMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load data'**
+  String get errorLoadDataMessage;
+
+  /// No description provided for @retryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryButton;
 }
 
 class _AppLocalizationsDelegate
@@ -356,7 +280,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'es'].contains(locale.languageCode);
+      <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -367,8 +291,6 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
-    case 'es':
-      return AppLocalizationsEs();
   }
 
   throw FlutterError(

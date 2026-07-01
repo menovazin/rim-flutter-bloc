@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/localization_helper.dart';
 import '../../../themes/app_theme.dart';
 
 /// Network-error placeholder rendered *inside* the catalog grid (as the last
 /// element) instead of replacing the whole screen. Offers a "Retry" action.
 class GridErrorTile extends StatelessWidget {
   final VoidCallback onRetry;
-  final String message;
+  final String? message;
 
   const GridErrorTile({
     super.key,
     required this.onRetry,
-    this.message = 'Не удалось загрузить данные',
+    this.message,
   });
 
   @override
@@ -30,7 +31,7 @@ class GridErrorTile extends StatelessWidget {
           Icon(Icons.wifi_off_rounded, color: designs.error, size: 36),
           const SizedBox(height: 12),
           Text(
-            message,
+            message ?? context.strings.errorLoadDataMessage,
             textAlign: TextAlign.center,
             style: context.textTheme.bodyMedium?.copyWith(
               color: designs.textPrimary,
@@ -49,7 +50,7 @@ class GridErrorTile extends StatelessWidget {
             ),
 
             icon: const Icon(Icons.refresh_rounded, size: 18),
-            label: const Text('Повторить'),
+            label: Text(context.strings.retryButton),
           ),
         ],
       ),

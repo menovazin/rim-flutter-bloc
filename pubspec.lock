@@ -362,10 +362,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_drawer_menu
-      sha256: b06c80c73a96aac3238ab2a164cb3c485bfb2515627bb7aa079f970e4dfcc08f
+      sha256: "6ed2db231d50e7201564616543ed93ccb71b479a1a42297dc8ffd3b86644bc91"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   flutter_gen_core:
     dependency: transitive
     description:
