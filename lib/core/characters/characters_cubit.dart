@@ -63,4 +63,30 @@ class CharactersCubit extends BaseCubit<CharactersState> {
   Future<void> retry() {
     return state.items.isEmpty ? loadInitial() : loadMore();
   }
+
+  /// Resets to page 1 and reloads. Returns Future for RefreshIndicator.
+  Future<void> refresh() async {
+    emit(state.copyWith(
+      status: StateStatus.refresh,
+      items: [],
+      page: 1,
+      hasNext: true,
+      hasError: false,
+      isLoadingMore: false,
+    ));
+
+    final result = await safeAction2(() => _repository.getCharacters(1));
+    if (result == null) {
+      emit(state.copyWith(status: StateStatus.error, hasError: true));
+      return;
+    }
+
+    emit(state.copyWith(
+      status: StateStatus.loaded,
+      items: result.items,
+      page: 1,
+      hasNext: result.hasNext,
+      hasError: false,
+    ));
+  }
 }

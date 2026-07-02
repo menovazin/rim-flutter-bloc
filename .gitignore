@@ -57,3 +57,6 @@ arch-refs/
 .fvm
 # OpenSpec
 openspec/archive/
+.opencode/
+.cline/
+.clinerules/

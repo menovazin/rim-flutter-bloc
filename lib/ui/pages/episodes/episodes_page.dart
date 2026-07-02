@@ -68,36 +68,40 @@ class _EpisodesPageState extends State<EpisodesPage> {
             );
           }
 
-          return CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.all(12),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) =>
-                        _EpisodeTile(episode: state.items[index]),
-                    childCount: state.items.length,
-                  ),
-                ),
-              ),
-              if (state.isLoadingMore)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Center(
-                      child: CircularProgressIndicator(color: designs.primary),
+          return RefreshIndicator(
+            onRefresh: _cubit.refresh,
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.all(12),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) =>
+                          _EpisodeTile(episode: state.items[index]),
+                      childCount: state.items.length,
                     ),
                   ),
                 ),
-              if (state.hasError && state.items.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: GridErrorTile(onRetry: _cubit.retry),
+                if (state.isLoadingMore)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Center(
+                        child:
+                            CircularProgressIndicator(color: designs.primary),
+                      ),
+                    ),
                   ),
-                ),
-            ],
+                if (state.hasError && state.items.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: GridErrorTile(onRetry: _cubit.retry),
+                    ),
+                  ),
+              ],
+            ),
           );
         },
       ),

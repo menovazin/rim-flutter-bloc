@@ -66,34 +66,37 @@ class _LocationsPageState extends State<LocationsPage> {
             );
           }
 
-          return CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.all(12),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) =>
-                        _LocationTile(location: state.items[index]),
-                    childCount: state.items.length,
+          return RefreshIndicator(
+            onRefresh: _cubit.refresh,
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.all(12),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) =>
+                          _LocationTile(location: state.items[index]),
+                      childCount: state.items.length,
+                    ),
                   ),
                 ),
-              ),
-              if (state.isLoadingMore)
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Center(child: CircularProgressIndicator()),
+                if (state.isLoadingMore)
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
                   ),
-                ),
-              if (state.hasError && state.items.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: GridErrorTile(onRetry: _cubit.retry),
+                if (state.hasError && state.items.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: GridErrorTile(onRetry: _cubit.retry),
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           );
         },
       ),

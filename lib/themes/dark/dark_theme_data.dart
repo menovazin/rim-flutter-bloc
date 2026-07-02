@@ -187,6 +187,10 @@ ThemeData _darkThemeData({String? fontFamily}) {
         fontSize: 16,
       ),
     ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: design.secondary,
+      refreshBackgroundColor: design.surface,
+    ),
     scaffoldBackgroundColor: design.background,
     primaryColorLight: design.primary,
     dividerColor: design.primary,

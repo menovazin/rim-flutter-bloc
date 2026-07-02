@@ -60,4 +60,29 @@ class LocationsCubit extends BaseCubit<LocationsState> {
   Future<void> retry() {
     return state.items.isEmpty ? loadInitial() : loadMore();
   }
+
+  Future<void> refresh() async {
+    emit(state.copyWith(
+      status: StateStatus.refresh,
+      items: [],
+      page: 1,
+      hasNext: true,
+      hasError: false,
+      isLoadingMore: false,
+    ));
+
+    final result = await safeAction2(() => _repository.getLocations(1));
+    if (result == null) {
+      emit(state.copyWith(status: StateStatus.error, hasError: true));
+      return;
+    }
+
+    emit(state.copyWith(
+      status: StateStatus.loaded,
+      items: result.items,
+      page: 1,
+      hasNext: result.hasNext,
+      hasError: false,
+    ));
+  }
 }

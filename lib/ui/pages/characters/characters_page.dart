@@ -70,9 +70,11 @@ class _CharactersPageState extends State<CharactersPage> {
           }
 
           final crossAxisCount = context.gridCrossAxisCount;
-          return CustomScrollView(
-            controller: _scrollController,
-            slivers: [
+          return RefreshIndicator(
+            onRefresh: _cubit.refresh,
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
               SliverPadding(
                 padding: const EdgeInsets.all(12),
                 sliver: SliverGrid(
@@ -103,7 +105,8 @@ class _CharactersPageState extends State<CharactersPage> {
                     child: GridErrorTile(onRetry: _cubit.retry),
                   ),
                 ),
-            ],
+              ],
+            ),
           );
         },
       ),
