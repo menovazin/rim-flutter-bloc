@@ -113,9 +113,7 @@ class _Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     final designs = context.designs;
     return ColoredBox(
-      color: Theme.of(context).brightness == Brightness.dark 
-          ? const Color(0xFF0B1618) 
-          : designs.surface,
+      color: designs.surface,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
