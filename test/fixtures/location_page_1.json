@@ -1,0 +1,25 @@
+{
+  "info": {
+    "count": 126,
+    "pages": 7,
+    "next": "https://rickandmortyapi.com/api/location?page=2",
+    "prev": null
+  },
+  "results": [
+    {
+      "id": 1,
+      "name": "Earth (C-137)",
+      "type": "Planet",
+      "dimension": "Dimension C-137",
+      "residents": [
+        "https://rickandmortyapi.com/api/character/1"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Abadango",
+      "type": "Cluster",
+      "dimension": "unknown"
+    }
+  ]
+}

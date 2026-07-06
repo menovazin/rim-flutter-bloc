@@ -51,12 +51,16 @@ app.*.map.json
 /openspec/**/*.rar
 
 # AI Agent Skills (Matt Pocock skills, etc.)
+.agents/
+.cline/
+.clinerules/
 .skills/
 design-refs/
 arch-refs/
+HOWTO.md
+CONTEXT.md
+docs/
 .fvm
 # OpenSpec
-openspec/archive/
+openspec
 .opencode/
-.cline/
-.clinerules/

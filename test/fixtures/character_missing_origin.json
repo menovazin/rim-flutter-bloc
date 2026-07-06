@@ -1,0 +1,10 @@
+{
+  "id": 2,
+  "name": "Morty Smith",
+  "status": "Alive",
+  "species": "Human",
+  "type": "",
+  "gender": "Male",
+  "image": "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
+  "episode": []
+}
