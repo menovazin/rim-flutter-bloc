@@ -1,18 +1,17 @@
+import '../api/constants/api_constants.dart';
+
 /// Url substitution util for Rick and Morty avatars.
 class AvatarUrlUtils {
   const AvatarUrlUtils._();
 
-  static const _customBase = 'https://semester.syazy.com/rickandmorty';
-
   static String getCustomAvatarUrl(String originalUrl) {
-    const originalBase = 'https://rickandmortyapi.com/api/character/avatar/';
 
-    if (originalUrl.startsWith(originalBase)) {
-      return originalUrl.replaceFirst(originalBase, '$_customBase/');
+    if (originalUrl.startsWith('/')) {
+      return '${ApiConstants.baseUrl}$originalUrl';
     }
 
     return originalUrl;
   }
 
-  static String avatarUrlFromId(int id) => '$_customBase/$id.jpeg';
+  static String avatarUrlFromId(int id) => '${ApiConstants.baseUrl}/character/avatar/$id.jpeg';
 }

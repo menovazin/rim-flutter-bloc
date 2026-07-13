@@ -22,7 +22,7 @@ void main() {
       expect(character.gender, 'Male');
       expect(
         character.image,
-        'https://semester.syazy.com/rickandmorty/1.jpeg',
+        'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
       );
       expect(character.originName, 'Earth (C-137)');
       expect(

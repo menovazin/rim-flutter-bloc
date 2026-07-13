@@ -1,32 +1,32 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:init/api/constants/api_constants.dart';
 import 'package:init/utils/avatar_url_utils.dart';
 
 void main() {
   group('AvatarUrlUtils', () {
-    test('getCustomAvatarUrl replaces original base with custom base', () {
-      const original =
-          'https://rickandmortyapi.com/api/character/avatar/1.jpeg';
+    test('getCustomAvatarUrl prepends baseUrl for relative paths', () {
+      const relative = '/api/character/avatar/1.jpeg';
 
       expect(
-        AvatarUrlUtils.getCustomAvatarUrl(original),
-        'https://semester.syazy.com/rickandmorty/1.jpeg',
+        AvatarUrlUtils.getCustomAvatarUrl(relative),
+        '${ApiConstants.baseUrl}$relative',
       );
     });
 
-    test('getCustomAvatarUrl returns unknown URL unchanged', () {
-      const url = 'https://example.com/avatar.png';
+    test('getCustomAvatarUrl returns absolute URL unchanged', () {
+      const url = 'https://rickandmortyapi.com/api/character/avatar/1.jpeg';
 
       expect(AvatarUrlUtils.getCustomAvatarUrl(url), url);
     });
 
-    test('getCustomAvatarUrl handles empty string', () {
+    test('getCustomAvatarUrl returns empty string unchanged', () {
       expect(AvatarUrlUtils.getCustomAvatarUrl(''), '');
     });
 
-    test('avatarUrlFromId returns custom URL with id', () {
+    test('avatarUrlFromId returns URL based on ApiConstants.baseUrl', () {
       expect(
         AvatarUrlUtils.avatarUrlFromId(42),
-        'https://semester.syazy.com/rickandmorty/42.jpeg',
+        '${ApiConstants.baseUrl}/character/avatar/42.jpeg',
       );
     });
   });

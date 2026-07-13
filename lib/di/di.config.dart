@@ -26,6 +26,7 @@ import '../core/locations/locations_cubit.dart' as _i1064;
 import '../core/logs/logs_state.dart' as _i267;
 import '../core/settings/settings_state.dart' as _i751;
 import '../core/snack_messages/snack_messages_state.dart' as _i935;
+import '../data/api/rick_and_morty_api.dart' as _i549;
 import '../data/repositories/character_repository.dart' as _i388;
 import '../data/repositories/episode_repository.dart' as _i47;
 import '../data/repositories/location_repository.dart' as _i897;
@@ -57,6 +58,7 @@ Future<_i174.GetIt> $initGetIt(
   final diModule = _$DiModule();
   final routeModule = _$RouteModule();
   final dioModule = _$DioModule();
+  final rickAndMortyApiModule = _$RickAndMortyApiModule();
   gh.factory<_i558.FlutterSecureStorage>(() => diModule.secureStorage);
   await gh.factoryAsync<_i460.SharedPreferences>(
     () => diModule.sharedPreferences(),
@@ -101,18 +103,20 @@ Future<_i174.GetIt> $initGetIt(
     () => _i810.AppInfoServiceDev(gh<_i655.PackageInfo>()),
     registerFor: {_dev},
   );
+  gh.lazySingleton<_i549.RickAndMortyApi>(
+      () => rickAndMortyApiModule.getInstance(gh<_i361.Dio>()));
   gh.lazySingleton<_i388.CharacterRepository>(
-      () => _i388.CharacterRepository(gh<_i361.Dio>()));
+      () => _i388.CharacterRepository(gh<_i549.RickAndMortyApi>()));
   gh.lazySingleton<_i47.EpisodeRepository>(
-      () => _i47.EpisodeRepository(gh<_i361.Dio>()));
+      () => _i47.EpisodeRepository(gh<_i549.RickAndMortyApi>()));
   gh.lazySingleton<_i897.LocationRepository>(
-      () => _i897.LocationRepository(gh<_i361.Dio>()));
-  gh.factory<_i323.EpisodesCubit>(
-      () => _i323.EpisodesCubit(gh<_i47.EpisodeRepository>()));
+      () => _i897.LocationRepository(gh<_i549.RickAndMortyApi>()));
   gh.factory<_i1064.LocationsCubit>(
       () => _i1064.LocationsCubit(gh<_i897.LocationRepository>()));
   gh.factory<_i85.CharactersCubit>(
       () => _i85.CharactersCubit(gh<_i388.CharacterRepository>()));
+  gh.factory<_i323.EpisodesCubit>(
+      () => _i323.EpisodesCubit(gh<_i47.EpisodeRepository>()));
   return getIt;
 }
 
@@ -121,3 +125,5 @@ class _$DiModule extends _i831.DiModule {}
 class _$RouteModule extends _i402.RouteModule {}
 
 class _$DioModule extends _i1023.DioModule {}
+
+class _$RickAndMortyApiModule extends _i549.RickAndMortyApiModule {}

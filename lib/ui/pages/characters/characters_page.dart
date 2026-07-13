@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,7 @@ class _CharactersPageState extends State<CharactersPage> {
   @override
   void initState() {
     super.initState();
+    Future.microtask(() => _cubit.loadInitial());
     _scrollController.addListener(_onScroll);
     _cubit.loadInitial();
   }
@@ -56,7 +59,6 @@ class _CharactersPageState extends State<CharactersPage> {
       child: BlocBuilder<CharactersCubit, CharactersState>(
         builder: (context, state) {
           if (state.isBusy && state.items.isEmpty) {
-
             return const Center(child: CircularProgressIndicator());
           }
 
@@ -75,36 +77,36 @@ class _CharactersPageState extends State<CharactersPage> {
             child: CustomScrollView(
               controller: _scrollController,
               slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.all(12),
-                sliver: SliverGrid(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 0.72,
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) =>
-                        _CharacterCard(character: state.items[index]),
-                    childCount: state.items.length,
-                  ),
-                ),
-              ),
-              if (state.isLoadingMore)
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Center(child: CircularProgressIndicator()),
+                SliverPadding(
+                  padding: const EdgeInsets.all(12),
+                  sliver: SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 0.72,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) =>
+                          _CharacterCard(character: state.items[index]),
+                      childCount: state.items.length,
+                    ),
                   ),
                 ),
-              if (state.hasError && state.items.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: GridErrorTile(onRetry: _cubit.retry),
+                if (state.isLoadingMore)
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
                   ),
-                ),
+                if (state.hasError && state.items.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: GridErrorTile(onRetry: _cubit.retry),
+                    ),
+                  ),
               ],
             ),
           );

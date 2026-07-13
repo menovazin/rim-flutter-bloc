@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:init/api/constants/api_constants.dart';
+import 'package:init/data/api/rick_and_morty_api.dart';
 import 'package:init/data/repositories/location_repository.dart';
 
 void main() {
@@ -18,7 +19,8 @@ void main() {
     setUp(() {
       dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
       dioAdapter = DioAdapter(dio: dio);
-      repository = LocationRepository(dio);
+      final api = RickAndMortyApi(dio, baseUrl: ApiConstants.baseUrl);
+      repository = LocationRepository(api);
     });
 
     test('performs GET /location?page=N and returns PageResult', () async {

@@ -1,5 +1,5 @@
 abstract class ApiConstants {
-  static const host = 'rickandmortyapi.com';
+  static const host = 'alpha.syazy.com:1180';
   static const baseUrl = 'https://$host/api';
   static const refreshEndpoint = '$baseUrl/auth/refresh';
 
