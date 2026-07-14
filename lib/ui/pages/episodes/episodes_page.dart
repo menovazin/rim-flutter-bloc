@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/episodes/episodes_cubit.dart';
+import '../../../core/episodes/episodes_bloc.dart';
+import '../../../core/episodes/episodes_event.dart';
+import '../../../core/episodes/episodes_state.dart';
 import '../../../core/error/app_error_kind.dart';
 import '../../../di/di.dart';
 import '../../../l10n/localization_helper.dart';
@@ -22,14 +24,14 @@ class EpisodesPage extends StatefulWidget {
 }
 
 class _EpisodesPageState extends State<EpisodesPage> {
-  final _cubit = di.episodesCubit;
+  final _bloc = di.episodesBloc;
   final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _cubit.loadInitial();
+    _bloc.add(const EpisodesEvent.loadInitialRequested());
   }
 
   @override
@@ -37,14 +39,14 @@ class _EpisodesPageState extends State<EpisodesPage> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
-    _cubit.close();
+    _bloc.close();
     super.dispose();
   }
 
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 300) {
-      _cubit.loadMore();
+      _bloc.add(const EpisodesEvent.loadMoreRequested());
     }
   }
 
@@ -52,8 +54,8 @@ class _EpisodesPageState extends State<EpisodesPage> {
   Widget build(BuildContext context) {
     final designs = context.designs;
     return BlocProvider.value(
-      value: _cubit,
-      child: BlocBuilder<EpisodesCubit, EpisodesState>(
+      value: _bloc,
+      child: BlocBuilder<EpisodesBloc, EpisodesState>(
         builder: (context, state) {
           if (state.isBusy && state.items.isEmpty) {
             return Center(
@@ -67,14 +69,18 @@ class _EpisodesPageState extends State<EpisodesPage> {
                 padding: const EdgeInsets.all(24),
                 child: GridErrorTile(
                   message: state.errorKind?.localizedMessage(context.strings),
-                  onRetry: _cubit.retry,
+                  onRetry: () =>
+                      _bloc.add(const EpisodesEvent.retryRequested()),
                 ),
               ),
             );
           }
 
           return RefreshIndicator(
-            onRefresh: _cubit.refresh,
+            onRefresh: () async {
+              _bloc.add(const EpisodesEvent.refreshRequested());
+              await _bloc.stream.skip(1).firstWhere((s) => !s.isBusy);
+            },
             child: CustomScrollView(
               controller: _scrollController,
               slivers: [
@@ -104,7 +110,8 @@ class _EpisodesPageState extends State<EpisodesPage> {
                       padding: const EdgeInsets.all(16),
                       child: GridErrorTile(
                   message: state.errorKind?.localizedMessage(context.strings),
-                  onRetry: _cubit.retry,
+                  onRetry: () =>
+                      _bloc.add(const EpisodesEvent.retryRequested()),
                 ),
                     ),
                   ),

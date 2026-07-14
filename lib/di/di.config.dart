@@ -20,9 +20,9 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import '../api/dio/dio_api.dart' as _i1023;
 import '../api/interceptors/api_interceptors.dart' as _i956;
 import '../api/request_tracker/request_tracker.dart' as _i250;
-import '../core/characters/characters_cubit.dart' as _i85;
-import '../core/episodes/episodes_cubit.dart' as _i323;
-import '../core/locations/locations_cubit.dart' as _i1064;
+import '../core/characters/characters_bloc.dart' as _i175;
+import '../core/episodes/episodes_bloc.dart' as _i1036;
+import '../core/locations/locations_bloc.dart' as _i429;
 import '../core/logs/logs_state.dart' as _i267;
 import '../core/settings/settings_state.dart' as _i751;
 import '../core/snack_messages/snack_messages_state.dart' as _i935;
@@ -111,12 +111,12 @@ Future<_i174.GetIt> $initGetIt(
       () => _i47.EpisodeRepository(gh<_i549.RickAndMortyApi>()));
   gh.lazySingleton<_i897.LocationRepository>(
       () => _i897.LocationRepository(gh<_i549.RickAndMortyApi>()));
-  gh.factory<_i1064.LocationsCubit>(
-      () => _i1064.LocationsCubit(gh<_i897.LocationRepository>()));
-  gh.factory<_i85.CharactersCubit>(
-      () => _i85.CharactersCubit(gh<_i388.CharacterRepository>()));
-  gh.factory<_i323.EpisodesCubit>(
-      () => _i323.EpisodesCubit(gh<_i47.EpisodeRepository>()));
+  gh.factory<_i429.LocationsBloc>(
+      () => _i429.LocationsBloc(gh<_i897.LocationRepository>()));
+  gh.factory<_i175.CharactersBloc>(
+      () => _i175.CharactersBloc(gh<_i388.CharacterRepository>()));
+  gh.factory<_i1036.EpisodesBloc>(
+      () => _i1036.EpisodesBloc(gh<_i47.EpisodeRepository>()));
   return getIt;
 }
 

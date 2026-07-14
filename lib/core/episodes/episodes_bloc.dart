@@ -1,23 +1,33 @@
-import 'dart:async';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_base_kit/flutter_base_kit.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/error/app_error_kind.dart';
-import '../../data/repositories/character_repository.dart';
-import '../../domain/entities/character.dart';
-
-part 'characters_state.dart';
-part 'characters_cubit.freezed.dart';
+import '../error/app_error_kind.dart';
+import '../../data/repositories/episode_repository.dart';
+import 'episodes_event.dart';
+import 'episodes_state.dart';
 
 @injectable
-class CharactersCubit extends BaseCubit<CharactersState> {
-  final CharacterRepository _repository;
+class EpisodesBloc extends BaseBloc<EpisodesEvent, EpisodesState> {
+  EpisodesBloc(this._repository) : super(const EpisodesState()) {
+    on<EpisodesEvent>(_onEvent);
+  }
 
-  CharactersCubit(this._repository) : super(const CharactersState());
+  final EpisodeRepository _repository;
 
-  Future<void> loadInitial() async {
+  Future<void> _onEvent(
+    EpisodesEvent event,
+    Emitter<EpisodesState> emit,
+  ) async {
+    await event.when(
+      loadInitialRequested: () => _onLoadInitial(emit),
+      loadMoreRequested: () => _onLoadMore(emit),
+      refreshRequested: () => _onRefresh(emit),
+      retryRequested: () => _onRetry(emit),
+    );
+  }
+
+  Future<void> _onLoadInitial(Emitter<EpisodesState> emit) async {
     if (state.items.isNotEmpty || state.statusLoading) return;
     emit(state.copyWith(
       status: StateStatus.loading,
@@ -26,7 +36,7 @@ class CharactersCubit extends BaseCubit<CharactersState> {
     ));
 
     try {
-      final result = await _repository.getCharacters(1);
+      final result = await _repository.getEpisodes(1);
       emit(state.copyWith(
         status: StateStatus.loaded,
         items: result.items,
@@ -45,7 +55,7 @@ class CharactersCubit extends BaseCubit<CharactersState> {
     }
   }
 
-  Future<void> loadMore() async {
+  Future<void> _onLoadMore(Emitter<EpisodesState> emit) async {
     if (state.isLoadingMore || !state.hasNext || state.statusLoading) return;
     emit(state.copyWith(
       isLoadingMore: true,
@@ -55,7 +65,7 @@ class CharactersCubit extends BaseCubit<CharactersState> {
 
     final next = state.page + 1;
     try {
-      final result = await _repository.getCharacters(next);
+      final result = await _repository.getEpisodes(next);
       emit(state.copyWith(
         status: StateStatus.loaded,
         items: [...state.items, ...result.items],
@@ -75,11 +85,15 @@ class CharactersCubit extends BaseCubit<CharactersState> {
     }
   }
 
-  Future<void> retry() {
-    return state.items.isEmpty ? loadInitial() : loadMore();
+  Future<void> _onRetry(Emitter<EpisodesState> emit) async {
+    if (state.items.isEmpty) {
+      await _onLoadInitial(emit);
+    } else {
+      await _onLoadMore(emit);
+    }
   }
 
-  Future<void> refresh() async {
+  Future<void> _onRefresh(Emitter<EpisodesState> emit) async {
     emit(state.copyWith(
       status: StateStatus.refresh,
       items: [],
@@ -91,7 +105,7 @@ class CharactersCubit extends BaseCubit<CharactersState> {
     ));
 
     try {
-      final result = await _repository.getCharacters(1);
+      final result = await _repository.getEpisodes(1);
       emit(state.copyWith(
         status: StateStatus.loaded,
         items: result.items,

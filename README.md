@@ -73,9 +73,9 @@ OpenSpec генерирует:
 | 1 | `rest-data-layer` | Dio-клиент, API-интерфейсы (Retrofit), репозитории, мапперы, доменные сущности |
 | 2 | `fake-login` | Экран логина, TokenService (Secure Storage), Splash-гейт с редиректом |
 | 3 | `main-navigation` | Shell-страница, flutter_drawer_menu, AutoTabsRouter, сохранение скролла |
-| 4 | `characters-catalog` | CharactersCubit (пагинация), SliverGrid, карточки, Detail + pinch-to-zoom |
-| 5 | `episodes-catalog` | EpisodesCubit, список эпизодов, Detail |
-| 6 | `locations-catalog` | LocationsCubit, список локаций, Detail |
+| 4 | `characters-catalog` | CharactersBloc (пагинация), SliverGrid, карточки, Detail + pinch-to-zoom |
+| 5 | `episodes-catalog` | EpisodesBloc, список эпизодов, Detail |
+| 6 | `locations-catalog` | LocationsBloc, список локаций, Detail |
 
 ---
 
@@ -85,7 +85,7 @@ OpenSpec генерирует:
 |------|-----------|------------|
 | Фреймворк | Flutter 3.41.9 (FVM) | Кроссплатформенный UI |
 | Архитектура | flutter_base_kit | Базовые модули, DI, роутинг, темы |
-| Состояние | flutter_bloc / Cubit | Управление состоянием экранов |
+| Состояние | flutter_bloc / Bloc | Управление состоянием экранов |
 | DI | GetIt + Injectable | Внедрение зависимостей с кодогенерацией |
 | Навигация | AutoRoute | Декларативный роутинг с типизированными аргументами |
 | Сеть | Dio + Retrofit | HTTP-клиент + типизированные API-интерфейсы |
@@ -105,7 +105,7 @@ OpenSpec генерирует:
 lib/
 ├── api/              ← Сетевой слой (Dio, Retrofit, интерцепторы)
 ├── config/           ← Константы приложения, настройки Hive
-├── core/             ← BLoC/Cubit'ы и глобальные состояния
+├── core/             ← BLoC'и и глобальные состояния
 ├── data/             ← Репозитории и мапперы (DTO → Entity)
 ├── di/               ← DI-контейнер (GetIt + Injectable)
 ├── domain/           ← Доменные сущности (Entity)
@@ -122,7 +122,7 @@ lib/
 ### Поток данных
 
 ```
-UI (Page) → Cubit → Repository → API (Retrofit/Dio) → Rick & Morty API
+UI (Page) → Bloc → Repository → API (Retrofit/Dio) → Rick & Morty API
                 ↑                        ↓
            Domain Entity          JSON Response
                 ↑                        ↓

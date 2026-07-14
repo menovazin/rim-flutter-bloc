@@ -1,7 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_base_kit/flutter_base_kit.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:init/core/episodes/episodes_cubit.dart';
+import 'package:init/core/episodes/episodes_bloc.dart';
+import 'package:init/core/episodes/episodes_event.dart';
+import 'package:init/core/episodes/episodes_state.dart';
 import 'package:init/data/repositories/episode_repository.dart';
 import 'package:init/domain/entities/episode.dart';
 import 'package:init/domain/entities/page_result.dart';
@@ -10,7 +12,7 @@ import 'package:mocktail/mocktail.dart';
 class _MockEpisodeRepository extends Mock implements EpisodeRepository {}
 
 void main() {
-  group('EpisodesCubit', () {
+  group('EpisodesBloc', () {
     // spec: episodes-catalog / Episodes catalog
 
     late _MockEpisodeRepository repository;
@@ -49,10 +51,10 @@ void main() {
       reset(repository);
     });
 
-    blocTest<EpisodesCubit, EpisodesState>(
+    blocTest<EpisodesBloc, EpisodesState>(
       'loadInitial emits loading then loaded',
-      build: () => EpisodesCubit(repository),
-      act: (cubit) => cubit.loadInitial(),
+      build: () => EpisodesBloc(repository),
+      act: (bloc) => bloc.add(const EpisodesEvent.loadInitialRequested()),
       setUp: () {
         when(() => repository.getEpisodes(1))
             .thenAnswer((_) async => tPage1);
@@ -66,16 +68,16 @@ void main() {
       },
     );
 
-    blocTest<EpisodesCubit, EpisodesState>(
+    blocTest<EpisodesBloc, EpisodesState>(
       'loadMore appends next page',
-      build: () => EpisodesCubit(repository),
+      build: () => EpisodesBloc(repository),
       seed: () => const EpisodesState(
         status: StateStatus.loaded,
         items: [tEpisode1],
         page: 1,
         hasNext: true,
       ),
-      act: (cubit) => cubit.loadMore(),
+      act: (bloc) => bloc.add(const EpisodesEvent.loadMoreRequested()),
       setUp: () {
         when(() => repository.getEpisodes(2))
             .thenAnswer((_) async => tPage2);
@@ -90,16 +92,16 @@ void main() {
       ],
     );
 
-    blocTest<EpisodesCubit, EpisodesState>(
+    blocTest<EpisodesBloc, EpisodesState>(
       'refresh clears items and reloads page 1',
-      build: () => EpisodesCubit(repository),
+      build: () => EpisodesBloc(repository),
       seed: () => const EpisodesState(
         status: StateStatus.loaded,
         items: [tEpisode1],
         page: 2,
         hasNext: false,
       ),
-      act: (cubit) => cubit.refresh(),
+      act: (bloc) => bloc.add(const EpisodesEvent.refreshRequested()),
       setUp: () {
         when(() => repository.getEpisodes(1))
             .thenAnswer((_) async => tPage1);
@@ -110,14 +112,14 @@ void main() {
       ],
     );
 
-    blocTest<EpisodesCubit, EpisodesState>(
+    blocTest<EpisodesBloc, EpisodesState>(
       'retry calls loadInitial when items are empty',
-      build: () => EpisodesCubit(repository),
+      build: () => EpisodesBloc(repository),
       seed: () => const EpisodesState(
         status: StateStatus.error,
         hasError: true,
       ),
-      act: (cubit) => cubit.retry(),
+      act: (bloc) => bloc.add(const EpisodesEvent.retryRequested()),
       setUp: () {
         when(() => repository.getEpisodes(1))
             .thenAnswer((_) async => tPage1);
@@ -128,9 +130,9 @@ void main() {
       ],
     );
 
-    blocTest<EpisodesCubit, EpisodesState>(
+    blocTest<EpisodesBloc, EpisodesState>(
       'retry calls loadMore when items are not empty',
-      build: () => EpisodesCubit(repository),
+      build: () => EpisodesBloc(repository),
       seed: () => const EpisodesState(
         status: StateStatus.error,
         items: [tEpisode1],
@@ -138,7 +140,7 @@ void main() {
         hasNext: true,
         hasError: true,
       ),
-      act: (cubit) => cubit.retry(),
+      act: (bloc) => bloc.add(const EpisodesEvent.retryRequested()),
       setUp: () {
         when(() => repository.getEpisodes(2))
             .thenAnswer((_) async => tPage2);
@@ -153,10 +155,10 @@ void main() {
       ],
     );
 
-    blocTest<EpisodesCubit, EpisodesState>(
+    blocTest<EpisodesBloc, EpisodesState>(
       'emits error state when repository throws',
-      build: () => EpisodesCubit(repository),
-      act: (cubit) => cubit.loadInitial(),
+      build: () => EpisodesBloc(repository),
+      act: (bloc) => bloc.add(const EpisodesEvent.loadInitialRequested()),
       setUp: () {
         when(() => repository.getEpisodes(1))
             .thenThrow(ApiException(message: 'error', errors: 'error'));
@@ -168,16 +170,16 @@ void main() {
       ],
     );
 
-    blocTest<EpisodesCubit, EpisodesState>(
+    blocTest<EpisodesBloc, EpisodesState>(
       'loadInitial is idempotent when data is already present',
-      build: () => EpisodesCubit(repository),
+      build: () => EpisodesBloc(repository),
       seed: () => const EpisodesState(
         status: StateStatus.loaded,
         items: [tEpisode1],
         page: 1,
         hasNext: true,
       ),
-      act: (cubit) => cubit.loadInitial(),
+      act: (bloc) => bloc.add(const EpisodesEvent.loadInitialRequested()),
       expect: () => [],
       verify: (_) {
         verifyNever(() => repository.getEpisodes(any()));

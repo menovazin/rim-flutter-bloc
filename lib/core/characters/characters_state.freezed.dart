@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'locations_cubit.dart';
+part of 'characters_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,29 +13,29 @@ part of 'locations_cubit.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$LocationsState {
+mixin _$CharactersState {
   StateStatus get status;
   String get message;
-  List<Location> get items;
+  List<Character> get items;
   int get page;
   bool get hasNext;
   bool get isLoadingMore;
   bool get hasError;
   AppErrorKind? get errorKind;
 
-  /// Create a copy of LocationsState
+  /// Create a copy of CharactersState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $LocationsStateCopyWith<LocationsState> get copyWith =>
-      _$LocationsStateCopyWithImpl<LocationsState>(
-          this as LocationsState, _$identity);
+  $CharactersStateCopyWith<CharactersState> get copyWith =>
+      _$CharactersStateCopyWithImpl<CharactersState>(
+          this as CharactersState, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is LocationsState &&
+            other is CharactersState &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
             const DeepCollectionEquality().equals(other.items, items) &&
@@ -63,20 +63,20 @@ mixin _$LocationsState {
 
   @override
   String toString() {
-    return 'LocationsState(status: $status, message: $message, items: $items, page: $page, hasNext: $hasNext, isLoadingMore: $isLoadingMore, hasError: $hasError, errorKind: $errorKind)';
+    return 'CharactersState(status: $status, message: $message, items: $items, page: $page, hasNext: $hasNext, isLoadingMore: $isLoadingMore, hasError: $hasError, errorKind: $errorKind)';
   }
 }
 
 /// @nodoc
-abstract mixin class $LocationsStateCopyWith<$Res> {
-  factory $LocationsStateCopyWith(
-          LocationsState value, $Res Function(LocationsState) _then) =
-      _$LocationsStateCopyWithImpl;
+abstract mixin class $CharactersStateCopyWith<$Res> {
+  factory $CharactersStateCopyWith(
+          CharactersState value, $Res Function(CharactersState) _then) =
+      _$CharactersStateCopyWithImpl;
   @useResult
   $Res call(
       {StateStatus status,
       String message,
-      List<Location> items,
+      List<Character> items,
       int page,
       bool hasNext,
       bool isLoadingMore,
@@ -85,14 +85,14 @@ abstract mixin class $LocationsStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$LocationsStateCopyWithImpl<$Res>
-    implements $LocationsStateCopyWith<$Res> {
-  _$LocationsStateCopyWithImpl(this._self, this._then);
+class _$CharactersStateCopyWithImpl<$Res>
+    implements $CharactersStateCopyWith<$Res> {
+  _$CharactersStateCopyWithImpl(this._self, this._then);
 
-  final LocationsState _self;
-  final $Res Function(LocationsState) _then;
+  final CharactersState _self;
+  final $Res Function(CharactersState) _then;
 
-  /// Create a copy of LocationsState
+  /// Create a copy of CharactersState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -118,7 +118,7 @@ class _$LocationsStateCopyWithImpl<$Res>
       items: null == items
           ? _self.items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<Location>,
+              as List<Character>,
       page: null == page
           ? _self.page
           : page // ignore: cast_nullable_to_non_nullable
@@ -143,8 +143,8 @@ class _$LocationsStateCopyWithImpl<$Res>
   }
 }
 
-/// Adds pattern-matching-related methods to [LocationsState].
-extension LocationsStatePatterns on LocationsState {
+/// Adds pattern-matching-related methods to [CharactersState].
+extension CharactersStatePatterns on CharactersState {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -159,12 +159,12 @@ extension LocationsStatePatterns on LocationsState {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_LocationsState value)? $default, {
+    TResult Function(_CharactersState value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _LocationsState() when $default != null:
+      case _CharactersState() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -186,11 +186,11 @@ extension LocationsStatePatterns on LocationsState {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_LocationsState value) $default,
+    TResult Function(_CharactersState value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _LocationsState():
+      case _CharactersState():
         return $default(_that);
       case _:
         throw StateError('Unexpected subclass');
@@ -211,11 +211,11 @@ extension LocationsStatePatterns on LocationsState {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_LocationsState value)? $default,
+    TResult? Function(_CharactersState value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _LocationsState() when $default != null:
+      case _CharactersState() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -239,7 +239,7 @@ extension LocationsStatePatterns on LocationsState {
     TResult Function(
             StateStatus status,
             String message,
-            List<Location> items,
+            List<Character> items,
             int page,
             bool hasNext,
             bool isLoadingMore,
@@ -250,7 +250,7 @@ extension LocationsStatePatterns on LocationsState {
   }) {
     final _that = this;
     switch (_that) {
-      case _LocationsState() when $default != null:
+      case _CharactersState() when $default != null:
         return $default(
             _that.status,
             _that.message,
@@ -283,7 +283,7 @@ extension LocationsStatePatterns on LocationsState {
     TResult Function(
             StateStatus status,
             String message,
-            List<Location> items,
+            List<Character> items,
             int page,
             bool hasNext,
             bool isLoadingMore,
@@ -293,7 +293,7 @@ extension LocationsStatePatterns on LocationsState {
   ) {
     final _that = this;
     switch (_that) {
-      case _LocationsState():
+      case _CharactersState():
         return $default(
             _that.status,
             _that.message,
@@ -325,7 +325,7 @@ extension LocationsStatePatterns on LocationsState {
     TResult? Function(
             StateStatus status,
             String message,
-            List<Location> items,
+            List<Character> items,
             int page,
             bool hasNext,
             bool isLoadingMore,
@@ -335,7 +335,7 @@ extension LocationsStatePatterns on LocationsState {
   ) {
     final _that = this;
     switch (_that) {
-      case _LocationsState() when $default != null:
+      case _CharactersState() when $default != null:
         return $default(
             _that.status,
             _that.message,
@@ -353,11 +353,11 @@ extension LocationsStatePatterns on LocationsState {
 
 /// @nodoc
 
-class _LocationsState extends LocationsState {
-  const _LocationsState(
+class _CharactersState extends CharactersState {
+  const _CharactersState(
       {this.status = StateStatus.initial,
       this.message = '',
-      final List<Location> items = const <Location>[],
+      final List<Character> items = const <Character>[],
       this.page = 1,
       this.hasNext = true,
       this.isLoadingMore = false,
@@ -372,10 +372,10 @@ class _LocationsState extends LocationsState {
   @override
   @JsonKey()
   final String message;
-  final List<Location> _items;
+  final List<Character> _items;
   @override
   @JsonKey()
-  List<Location> get items {
+  List<Character> get items {
     if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_items);
@@ -396,19 +396,19 @@ class _LocationsState extends LocationsState {
   @override
   final AppErrorKind? errorKind;
 
-  /// Create a copy of LocationsState
+  /// Create a copy of CharactersState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$LocationsStateCopyWith<_LocationsState> get copyWith =>
-      __$LocationsStateCopyWithImpl<_LocationsState>(this, _$identity);
+  _$CharactersStateCopyWith<_CharactersState> get copyWith =>
+      __$CharactersStateCopyWithImpl<_CharactersState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _LocationsState &&
+            other is _CharactersState &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
@@ -436,22 +436,22 @@ class _LocationsState extends LocationsState {
 
   @override
   String toString() {
-    return 'LocationsState(status: $status, message: $message, items: $items, page: $page, hasNext: $hasNext, isLoadingMore: $isLoadingMore, hasError: $hasError, errorKind: $errorKind)';
+    return 'CharactersState(status: $status, message: $message, items: $items, page: $page, hasNext: $hasNext, isLoadingMore: $isLoadingMore, hasError: $hasError, errorKind: $errorKind)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$LocationsStateCopyWith<$Res>
-    implements $LocationsStateCopyWith<$Res> {
-  factory _$LocationsStateCopyWith(
-          _LocationsState value, $Res Function(_LocationsState) _then) =
-      __$LocationsStateCopyWithImpl;
+abstract mixin class _$CharactersStateCopyWith<$Res>
+    implements $CharactersStateCopyWith<$Res> {
+  factory _$CharactersStateCopyWith(
+          _CharactersState value, $Res Function(_CharactersState) _then) =
+      __$CharactersStateCopyWithImpl;
   @override
   @useResult
   $Res call(
       {StateStatus status,
       String message,
-      List<Location> items,
+      List<Character> items,
       int page,
       bool hasNext,
       bool isLoadingMore,
@@ -460,14 +460,14 @@ abstract mixin class _$LocationsStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$LocationsStateCopyWithImpl<$Res>
-    implements _$LocationsStateCopyWith<$Res> {
-  __$LocationsStateCopyWithImpl(this._self, this._then);
+class __$CharactersStateCopyWithImpl<$Res>
+    implements _$CharactersStateCopyWith<$Res> {
+  __$CharactersStateCopyWithImpl(this._self, this._then);
 
-  final _LocationsState _self;
-  final $Res Function(_LocationsState) _then;
+  final _CharactersState _self;
+  final $Res Function(_CharactersState) _then;
 
-  /// Create a copy of LocationsState
+  /// Create a copy of CharactersState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -481,7 +481,7 @@ class __$LocationsStateCopyWithImpl<$Res>
     Object? hasError = null,
     Object? errorKind = freezed,
   }) {
-    return _then(_LocationsState(
+    return _then(_CharactersState(
       status: null == status
           ? _self.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -493,7 +493,7 @@ class __$LocationsStateCopyWithImpl<$Res>
       items: null == items
           ? _self._items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<Location>,
+              as List<Character>,
       page: null == page
           ? _self.page
           : page // ignore: cast_nullable_to_non_nullable

@@ -3,9 +3,9 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../api/request_tracker/request_tracker.dart';
-import '../core/characters/characters_cubit.dart';
-import '../core/episodes/episodes_cubit.dart';
-import '../core/locations/locations_cubit.dart';
+import '../core/characters/characters_bloc.dart';
+import '../core/episodes/episodes_bloc.dart';
+import '../core/locations/locations_bloc.dart';
 import '../core/logs/logs_state.dart';
 import '../core/settings/settings_state.dart';
 import '../core/snack_messages/snack_messages_state.dart';
@@ -23,11 +23,11 @@ class Di {
 
   AppRouter get appRouter => _getIt<AppRouter>();
 
-  CharactersCubit get charactersCubit => _getIt<CharactersCubit>();
+  CharactersBloc get charactersBloc => _getIt<CharactersBloc>();
 
-  EpisodesCubit get episodesCubit => _getIt<EpisodesCubit>();
+  EpisodesBloc get episodesBloc => _getIt<EpisodesBloc>();
 
-  LocationsCubit get locationsCubit => _getIt<LocationsCubit>();
+  LocationsBloc get locationsBloc => _getIt<LocationsBloc>();
 
   TokenService get tokenService => _getIt<TokenService>();
 

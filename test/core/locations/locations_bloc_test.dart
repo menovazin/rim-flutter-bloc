@@ -1,74 +1,62 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_base_kit/flutter_base_kit.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:init/core/characters/characters_cubit.dart';
-import 'package:init/data/repositories/character_repository.dart';
-import 'package:init/domain/entities/character.dart';
+import 'package:init/core/locations/locations_bloc.dart';
+import 'package:init/core/locations/locations_event.dart';
+import 'package:init/core/locations/locations_state.dart';
+import 'package:init/data/repositories/location_repository.dart';
+import 'package:init/domain/entities/location.dart';
 import 'package:init/domain/entities/page_result.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _MockCharacterRepository extends Mock implements CharacterRepository {}
+class _MockLocationRepository extends Mock implements LocationRepository {}
 
 void main() {
-  group('CharactersCubit', () {
-    // spec: characters-catalog / Characters catalog
+  group('LocationsBloc', () {
+    // spec: locations-catalog / Locations catalog
 
-    late _MockCharacterRepository repository;
-    const tCharacter1 = Character(
+    late _MockLocationRepository repository;
+    const tLocation1 = Location(
       id: 1,
-      name: 'Rick Sanchez',
-      status: 'Alive',
-      species: 'Human',
-      type: '',
-      gender: 'Male',
-      image: '',
-      originName: '',
-      originUrl: '',
-      locationName: '',
-      locationUrl: '',
-      episodeIds: [],
+      name: 'Earth (C-137)',
+      type: 'Planet',
+      dimension: 'Dimension C-137',
+      residentIds: [],
     );
-    const tCharacter2 = Character(
+    const tLocation2 = Location(
       id: 2,
-      name: 'Morty Smith',
-      status: 'Alive',
-      species: 'Human',
-      type: '',
-      gender: 'Male',
-      image: '',
-      originName: '',
-      originUrl: '',
-      locationName: '',
-      locationUrl: '',
-      episodeIds: [],
+      name: 'Abadango',
+      type: 'Cluster',
+      dimension: 'unknown',
+      residentIds: [],
     );
-    const tPage1 = PageResult<Character>(
-      items: [tCharacter1],
+    const tPage1 = PageResult<Location>(
+      items: [tLocation1],
       page: 1,
       totalPages: 2,
       hasNext: true,
     );
-    const tPage2 = PageResult<Character>(
-      items: [tCharacter2],
+    const tPage2 = PageResult<Location>(
+      items: [tLocation2],
       page: 2,
       totalPages: 2,
       hasNext: false,
     );
 
     setUp(() {
-      repository = _MockCharacterRepository();
+      repository = _MockLocationRepository();
     });
 
     tearDown(() {
       reset(repository);
     });
 
-    blocTest<CharactersCubit, CharactersState>(
+    blocTest<LocationsBloc, LocationsState>(
       'loadInitial emits loading then loaded',
-      build: () => CharactersCubit(repository),
-      act: (cubit) => cubit.loadInitial(),
+      build: () => LocationsBloc(repository),
+      act: (bloc) => bloc.add(const LocationsEvent.loadInitialRequested()),
       setUp: () {
-        when(() => repository.getCharacters(1))
+        when(() => repository.getLocations(1))
             .thenAnswer((_) async => tPage1);
       },
       expect: () => [
@@ -76,46 +64,46 @@ void main() {
         _isLoadedState(items: tPage1.items, hasNext: true),
       ],
       verify: (_) {
-        verify(() => repository.getCharacters(1)).called(1);
+        verify(() => repository.getLocations(1)).called(1);
       },
     );
 
-    blocTest<CharactersCubit, CharactersState>(
+    blocTest<LocationsBloc, LocationsState>(
       'loadMore appends next page',
-      build: () => CharactersCubit(repository),
-      seed: () => const CharactersState(
+      build: () => LocationsBloc(repository),
+      seed: () => const LocationsState(
         status: StateStatus.loaded,
-        items: [tCharacter1],
+        items: [tLocation1],
         page: 1,
         hasNext: true,
       ),
-      act: (cubit) => cubit.loadMore(),
+      act: (bloc) => bloc.add(const LocationsEvent.loadMoreRequested()),
       setUp: () {
-        when(() => repository.getCharacters(2))
+        when(() => repository.getLocations(2))
             .thenAnswer((_) async => tPage2);
       },
       expect: () => [
         _isLoadingMoreState(),
         _isLoadedState(
-          items: [tCharacter1, tCharacter2],
+          items: [tLocation1, tLocation2],
           hasNext: false,
           page: 2,
         ),
       ],
     );
 
-    blocTest<CharactersCubit, CharactersState>(
+    blocTest<LocationsBloc, LocationsState>(
       'refresh clears items and reloads page 1',
-      build: () => CharactersCubit(repository),
-      seed: () => const CharactersState(
+      build: () => LocationsBloc(repository),
+      seed: () => const LocationsState(
         status: StateStatus.loaded,
-        items: [tCharacter1],
+        items: [tLocation1],
         page: 2,
         hasNext: false,
       ),
-      act: (cubit) => cubit.refresh(),
+      act: (bloc) => bloc.add(const LocationsEvent.refreshRequested()),
       setUp: () {
-        when(() => repository.getCharacters(1))
+        when(() => repository.getLocations(1))
             .thenAnswer((_) async => tPage1);
       },
       expect: () => [
@@ -124,16 +112,16 @@ void main() {
       ],
     );
 
-    blocTest<CharactersCubit, CharactersState>(
+    blocTest<LocationsBloc, LocationsState>(
       'retry calls loadInitial when items are empty',
-      build: () => CharactersCubit(repository),
-      seed: () => const CharactersState(
+      build: () => LocationsBloc(repository),
+      seed: () => const LocationsState(
         status: StateStatus.error,
         hasError: true,
       ),
-      act: (cubit) => cubit.retry(),
+      act: (bloc) => bloc.add(const LocationsEvent.retryRequested()),
       setUp: () {
-        when(() => repository.getCharacters(1))
+        when(() => repository.getLocations(1))
             .thenAnswer((_) async => tPage1);
       },
       expect: () => [
@@ -142,37 +130,37 @@ void main() {
       ],
     );
 
-    blocTest<CharactersCubit, CharactersState>(
+    blocTest<LocationsBloc, LocationsState>(
       'retry calls loadMore when items are not empty',
-      build: () => CharactersCubit(repository),
-      seed: () => const CharactersState(
+      build: () => LocationsBloc(repository),
+      seed: () => const LocationsState(
         status: StateStatus.error,
-        items: [tCharacter1],
+        items: [tLocation1],
         page: 1,
         hasNext: true,
         hasError: true,
       ),
-      act: (cubit) => cubit.retry(),
+      act: (bloc) => bloc.add(const LocationsEvent.retryRequested()),
       setUp: () {
-        when(() => repository.getCharacters(2))
+        when(() => repository.getLocations(2))
             .thenAnswer((_) async => tPage2);
       },
       expect: () => [
         _isLoadingMoreState(),
         _isLoadedState(
-          items: [tCharacter1, tCharacter2],
+          items: [tLocation1, tLocation2],
           hasNext: false,
           page: 2,
         ),
       ],
     );
 
-    blocTest<CharactersCubit, CharactersState>(
+    blocTest<LocationsBloc, LocationsState>(
       'emits error state when repository throws',
-      build: () => CharactersCubit(repository),
-      act: (cubit) => cubit.loadInitial(),
+      build: () => LocationsBloc(repository),
+      act: (bloc) => bloc.add(const LocationsEvent.loadInitialRequested()),
       setUp: () {
-        when(() => repository.getCharacters(1))
+        when(() => repository.getLocations(1))
             .thenThrow(ApiException(message: 'error', errors: 'error'));
       },
       expect: () => [
@@ -182,47 +170,47 @@ void main() {
       ],
     );
 
-    blocTest<CharactersCubit, CharactersState>(
+    blocTest<LocationsBloc, LocationsState>(
       'loadInitial is idempotent when data is already present',
-      build: () => CharactersCubit(repository),
-      seed: () => const CharactersState(
+      build: () => LocationsBloc(repository),
+      seed: () => const LocationsState(
         status: StateStatus.loaded,
-        items: [tCharacter1],
+        items: [tLocation1],
         page: 1,
         hasNext: true,
       ),
-      act: (cubit) => cubit.loadInitial(),
+      act: (bloc) => bloc.add(const LocationsEvent.loadInitialRequested()),
       expect: () => [],
       verify: (_) {
-        verifyNever(() => repository.getCharacters(any()));
+        verifyNever(() => repository.getLocations(any()));
       },
     );
   });
 }
 
 Matcher _isLoadingState() =>
-    isA<CharactersState>()
+    isA<LocationsState>()
         .having((s) => s.status, 'status', StateStatus.loading)
         .having((s) => s.hasError, 'hasError', false);
 
 Matcher _isLoadingMoreState() =>
-    isA<CharactersState>()
+    isA<LocationsState>()
         .having((s) => s.isLoadingMore, 'isLoadingMore', true)
         .having((s) => s.hasError, 'hasError', false);
 
 Matcher _isRefreshState() =>
-    isA<CharactersState>()
+    isA<LocationsState>()
         .having((s) => s.status, 'status', StateStatus.refresh)
         .having((s) => s.items, 'items', isEmpty)
         .having((s) => s.page, 'page', 1)
         .having((s) => s.hasNext, 'hasNext', true);
 
 Matcher _isLoadedState({
-  required List<Character> items,
+  required List<Location> items,
   required bool hasNext,
   int page = 1,
 }) =>
-    isA<CharactersState>()
+    isA<LocationsState>()
         .having((s) => s.status, 'status', StateStatus.loaded)
         .having((s) => s.items, 'items', equals(items))
         .having((s) => s.page, 'page', page)
@@ -230,6 +218,6 @@ Matcher _isLoadedState({
         .having((s) => s.hasError, 'hasError', false);
 
 Matcher _isErrorState() =>
-    isA<CharactersState>()
+    isA<LocationsState>()
         .having((s) => s.status, 'status', StateStatus.error)
         .having((s) => s.hasError, 'hasError', true);
