@@ -4,7 +4,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../../../di/di.dart';
 import '../../../routes/router.dart';
-import '../../../services/storage/token/token_service.dart';
 import '../../../themes/app_theme.dart';
 
 /// Splash / entry gate.
@@ -27,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _decideStartDestination() async {
-    final token = await locator<TokenService>().getToken();
+    final token = await di.tokenService.getToken();
     // Small delay so the splash is visible on fast devices.
     await Future<void>.delayed(const Duration(milliseconds: 600));
     if (!mounted) return;

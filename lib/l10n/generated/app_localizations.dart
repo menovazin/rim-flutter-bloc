@@ -262,6 +262,24 @@ abstract class AppLocalizations {
   /// **'Failed to load data'**
   String get errorLoadDataMessage;
 
+  /// No description provided for @errorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your connection and try again'**
+  String get errorNetwork;
+
+  /// No description provided for @errorServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again later'**
+  String get errorServer;
+
+  /// No description provided for @errorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again'**
+  String get errorUnknown;
+
   /// No description provided for @retryButton.
   ///
   /// In en, this message translates to:

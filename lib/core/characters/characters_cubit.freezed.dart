@@ -21,6 +21,7 @@ mixin _$CharactersState {
   bool get hasNext;
   bool get isLoadingMore;
   bool get hasError;
+  AppErrorKind? get errorKind;
 
   /// Create a copy of CharactersState
   /// with the given fields replaced by the non-null parameter values.
@@ -43,7 +44,9 @@ mixin _$CharactersState {
             (identical(other.isLoadingMore, isLoadingMore) ||
                 other.isLoadingMore == isLoadingMore) &&
             (identical(other.hasError, hasError) ||
-                other.hasError == hasError));
+                other.hasError == hasError) &&
+            (identical(other.errorKind, errorKind) ||
+                other.errorKind == errorKind));
   }
 
   @override
@@ -55,11 +58,12 @@ mixin _$CharactersState {
       page,
       hasNext,
       isLoadingMore,
-      hasError);
+      hasError,
+      errorKind);
 
   @override
   String toString() {
-    return 'CharactersState(status: $status, message: $message, items: $items, page: $page, hasNext: $hasNext, isLoadingMore: $isLoadingMore, hasError: $hasError)';
+    return 'CharactersState(status: $status, message: $message, items: $items, page: $page, hasNext: $hasNext, isLoadingMore: $isLoadingMore, hasError: $hasError, errorKind: $errorKind)';
   }
 }
 
@@ -76,7 +80,8 @@ abstract mixin class $CharactersStateCopyWith<$Res> {
       int page,
       bool hasNext,
       bool isLoadingMore,
-      bool hasError});
+      bool hasError,
+      AppErrorKind? errorKind});
 }
 
 /// @nodoc
@@ -99,6 +104,7 @@ class _$CharactersStateCopyWithImpl<$Res>
     Object? hasNext = null,
     Object? isLoadingMore = null,
     Object? hasError = null,
+    Object? errorKind = freezed,
   }) {
     return _then(_self.copyWith(
       status: null == status
@@ -129,6 +135,10 @@ class _$CharactersStateCopyWithImpl<$Res>
           ? _self.hasError
           : hasError // ignore: cast_nullable_to_non_nullable
               as bool,
+      errorKind: freezed == errorKind
+          ? _self.errorKind
+          : errorKind // ignore: cast_nullable_to_non_nullable
+              as AppErrorKind?,
     ));
   }
 }
@@ -226,16 +236,30 @@ extension CharactersStatePatterns on CharactersState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(StateStatus status, String message, List<Character> items,
-            int page, bool hasNext, bool isLoadingMore, bool hasError)?
+    TResult Function(
+            StateStatus status,
+            String message,
+            List<Character> items,
+            int page,
+            bool hasNext,
+            bool isLoadingMore,
+            bool hasError,
+            AppErrorKind? errorKind)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _CharactersState() when $default != null:
-        return $default(_that.status, _that.message, _that.items, _that.page,
-            _that.hasNext, _that.isLoadingMore, _that.hasError);
+        return $default(
+            _that.status,
+            _that.message,
+            _that.items,
+            _that.page,
+            _that.hasNext,
+            _that.isLoadingMore,
+            _that.hasError,
+            _that.errorKind);
       case _:
         return orElse();
     }
@@ -256,15 +280,29 @@ extension CharactersStatePatterns on CharactersState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(StateStatus status, String message, List<Character> items,
-            int page, bool hasNext, bool isLoadingMore, bool hasError)
+    TResult Function(
+            StateStatus status,
+            String message,
+            List<Character> items,
+            int page,
+            bool hasNext,
+            bool isLoadingMore,
+            bool hasError,
+            AppErrorKind? errorKind)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CharactersState():
-        return $default(_that.status, _that.message, _that.items, _that.page,
-            _that.hasNext, _that.isLoadingMore, _that.hasError);
+        return $default(
+            _that.status,
+            _that.message,
+            _that.items,
+            _that.page,
+            _that.hasNext,
+            _that.isLoadingMore,
+            _that.hasError,
+            _that.errorKind);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -284,15 +322,29 @@ extension CharactersStatePatterns on CharactersState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(StateStatus status, String message, List<Character> items,
-            int page, bool hasNext, bool isLoadingMore, bool hasError)?
+    TResult? Function(
+            StateStatus status,
+            String message,
+            List<Character> items,
+            int page,
+            bool hasNext,
+            bool isLoadingMore,
+            bool hasError,
+            AppErrorKind? errorKind)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CharactersState() when $default != null:
-        return $default(_that.status, _that.message, _that.items, _that.page,
-            _that.hasNext, _that.isLoadingMore, _that.hasError);
+        return $default(
+            _that.status,
+            _that.message,
+            _that.items,
+            _that.page,
+            _that.hasNext,
+            _that.isLoadingMore,
+            _that.hasError,
+            _that.errorKind);
       case _:
         return null;
     }
@@ -309,7 +361,8 @@ class _CharactersState extends CharactersState {
       this.page = 1,
       this.hasNext = true,
       this.isLoadingMore = false,
-      this.hasError = false})
+      this.hasError = false,
+      this.errorKind})
       : _items = items,
         super._();
 
@@ -340,6 +393,8 @@ class _CharactersState extends CharactersState {
   @override
   @JsonKey()
   final bool hasError;
+  @override
+  final AppErrorKind? errorKind;
 
   /// Create a copy of CharactersState
   /// with the given fields replaced by the non-null parameter values.
@@ -362,7 +417,9 @@ class _CharactersState extends CharactersState {
             (identical(other.isLoadingMore, isLoadingMore) ||
                 other.isLoadingMore == isLoadingMore) &&
             (identical(other.hasError, hasError) ||
-                other.hasError == hasError));
+                other.hasError == hasError) &&
+            (identical(other.errorKind, errorKind) ||
+                other.errorKind == errorKind));
   }
 
   @override
@@ -374,11 +431,12 @@ class _CharactersState extends CharactersState {
       page,
       hasNext,
       isLoadingMore,
-      hasError);
+      hasError,
+      errorKind);
 
   @override
   String toString() {
-    return 'CharactersState(status: $status, message: $message, items: $items, page: $page, hasNext: $hasNext, isLoadingMore: $isLoadingMore, hasError: $hasError)';
+    return 'CharactersState(status: $status, message: $message, items: $items, page: $page, hasNext: $hasNext, isLoadingMore: $isLoadingMore, hasError: $hasError, errorKind: $errorKind)';
   }
 }
 
@@ -397,7 +455,8 @@ abstract mixin class _$CharactersStateCopyWith<$Res>
       int page,
       bool hasNext,
       bool isLoadingMore,
-      bool hasError});
+      bool hasError,
+      AppErrorKind? errorKind});
 }
 
 /// @nodoc
@@ -420,6 +479,7 @@ class __$CharactersStateCopyWithImpl<$Res>
     Object? hasNext = null,
     Object? isLoadingMore = null,
     Object? hasError = null,
+    Object? errorKind = freezed,
   }) {
     return _then(_CharactersState(
       status: null == status
@@ -450,6 +510,10 @@ class __$CharactersStateCopyWithImpl<$Res>
           ? _self.hasError
           : hasError // ignore: cast_nullable_to_non_nullable
               as bool,
+      errorKind: freezed == errorKind
+          ? _self.errorKind
+          : errorKind // ignore: cast_nullable_to_non_nullable
+              as AppErrorKind?,
     ));
   }
 }

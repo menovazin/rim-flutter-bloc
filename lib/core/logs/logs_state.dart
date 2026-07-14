@@ -8,7 +8,7 @@ import '../../services/logger/logger_config.dart';
 
 @singleton
 class LogsState extends BaseProvider {
-  static LogsState get _instance => locator();
+  static LogsState get _instance => di.logsState;
   static LogsState get instance => _instance;
 
   final _logs = <String>[];

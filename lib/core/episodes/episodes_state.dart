@@ -17,5 +17,6 @@ abstract class EpisodesState extends BaseStateI with _$EpisodesState {
     @Default(true) bool hasNext,
     @Default(false) bool isLoadingMore,
     @Default(false) bool hasError,
+    AppErrorKind? errorKind,
   }) = _EpisodesState;
 }

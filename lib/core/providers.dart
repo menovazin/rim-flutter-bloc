@@ -9,8 +9,8 @@ import 'snack_messages/snack_messages_state.dart';
 abstract class Providers {
   static List<SingleChildWidget> get providers {
     return [
-      ChangeNotifierProvider<SettingsState>(create: (_) => locator()..init()),
-      ChangeNotifierProvider<SnackMessagesState>(create: (_) => locator()),
+      ChangeNotifierProvider<SettingsState>(create: (_) => di.settingsState..init()),
+      ChangeNotifierProvider<SnackMessagesState>(create: (_) => di.snackMessagesState),
       ChangeNotifierProvider<LogsState>(create: (_) => LogsState.instance),
     ];
   }

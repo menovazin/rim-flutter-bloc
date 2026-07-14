@@ -2,11 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_drawer_menu/flutter_drawer_menu.dart';
 
-import '../../../core/settings/settings_state.dart';
 import '../../../di/di.dart';
 import '../../../l10n/localization_helper.dart';
 import '../../../routes/router.dart';
-import '../../../services/storage/token/token_service.dart';
 import '../../../themes/app_theme.dart';
 
 /// Main shell with a left navigation menu (`flutter_drawer_menu`).
@@ -32,7 +30,7 @@ class _ShellPageState extends State<ShellPage> {
   ];
 
   Future<void> _logout() async {
-    await locator<TokenService>().clear();
+    await di.tokenService.clear();
     if (!mounted) return;
     await context.router.replaceAll([const LoginRoute()]);
   }
@@ -141,7 +139,7 @@ class _Menu extends StatelessWidget {
                       color: designs.textPrimary,
                       size: 24,
                     ),
-                    onPressed: () => locator<SettingsState>().switchTheme(),
+                    onPressed: () => di.settingsState.switchTheme(),
                   ),
                 ],
               ),

@@ -17,5 +17,6 @@ abstract class LocationsState extends BaseStateI with _$LocationsState {
     @Default(true) bool hasNext,
     @Default(false) bool isLoadingMore,
     @Default(false) bool hasError,
+    AppErrorKind? errorKind,
   }) = _LocationsState;
 }

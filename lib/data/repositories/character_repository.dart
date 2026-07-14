@@ -1,13 +1,13 @@
-import 'package:flutter_base_kit/flutter_base_kit.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../core/base/rim_base_service.dart';
 import '../../domain/entities/character.dart';
 import '../../domain/entities/page_result.dart';
 import '../api/rick_and_morty_api.dart';
 import '../mappers/character_mapper.dart';
 
 @lazySingleton
-class CharacterRepository extends BaseService {
+class CharacterRepository extends RimBaseService {
   final RickAndMortyApi _api;
 
   const CharacterRepository(this._api);

@@ -49,5 +49,8 @@
     },
     "noResidentsMessage": "No residents",
     "errorLoadDataMessage": "Failed to load data",
+    "errorNetwork": "Check your connection and try again",
+    "errorServer": "Server error. Please try again later",
+    "errorUnknown": "Something went wrong. Please try again",
     "retryButton": "Retry"
 }

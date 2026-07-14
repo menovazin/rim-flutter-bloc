@@ -13,7 +13,7 @@ class RequestTracker with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
   }
 
-  Dio get _dio => locator<Dio>();
+  Dio get _dio => di.dio;
 
   int _active = 0;
   bool _pendingReset = false;

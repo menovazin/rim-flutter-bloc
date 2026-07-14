@@ -7,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/characters/characters_cubit.dart';
 
+import '../../../core/error/app_error_kind.dart';
 import '../../../di/di.dart';
+import '../../../l10n/localization_helper.dart';
 import '../../../domain/entities/character.dart';
 import '../../../routes/router.dart';
 import '../../../themes/app_theme.dart';
@@ -25,13 +27,12 @@ class CharactersPage extends StatefulWidget {
 }
 
 class _CharactersPageState extends State<CharactersPage> {
-  final _cubit = locator<CharactersCubit>();
+  final _cubit = di.charactersCubit;
   final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => _cubit.loadInitial());
     _scrollController.addListener(_onScroll);
     _cubit.loadInitial();
   }
@@ -66,7 +67,10 @@ class _CharactersPageState extends State<CharactersPage> {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),
-                child: GridErrorTile(onRetry: _cubit.retry),
+                child: GridErrorTile(
+                  message: state.errorKind?.localizedMessage(context.strings),
+                  onRetry: _cubit.retry,
+                ),
               ),
             );
           }
@@ -104,7 +108,10 @@ class _CharactersPageState extends State<CharactersPage> {
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: GridErrorTile(onRetry: _cubit.retry),
+                      child: GridErrorTile(
+                  message: state.errorKind?.localizedMessage(context.strings),
+                  onRetry: _cubit.retry,
+                ),
                     ),
                   ),
               ],

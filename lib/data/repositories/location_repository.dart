@@ -1,13 +1,13 @@
-import 'package:flutter_base_kit/flutter_base_kit.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../core/base/rim_base_service.dart';
 import '../../domain/entities/location.dart';
 import '../../domain/entities/page_result.dart';
 import '../api/rick_and_morty_api.dart';
 import '../mappers/location_mapper.dart';
 
 @lazySingleton
-class LocationRepository extends BaseService {
+class LocationRepository extends RimBaseService {
   final RickAndMortyApi _api;
 
   const LocationRepository(this._api);

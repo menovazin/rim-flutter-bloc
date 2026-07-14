@@ -50,7 +50,7 @@ class AppRoot extends StatefulWidget {
 }
 
 class _AppRootState extends State<AppRoot> {
-  late final _router = locator<AppRouter>();
+  late final _router = di.appRouter;
 
   @override
   Widget build(BuildContext context) {

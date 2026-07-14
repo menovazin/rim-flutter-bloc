@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/episodes/episodes_cubit.dart';
+import '../../../core/error/app_error_kind.dart';
 import '../../../di/di.dart';
+import '../../../l10n/localization_helper.dart';
 import '../../../domain/entities/episode.dart';
 import '../../../routes/router.dart';
 import '../../../themes/app_theme.dart';
@@ -20,7 +22,7 @@ class EpisodesPage extends StatefulWidget {
 }
 
 class _EpisodesPageState extends State<EpisodesPage> {
-  final _cubit = locator<EpisodesCubit>();
+  final _cubit = di.episodesCubit;
   final _scrollController = ScrollController();
 
   @override
@@ -63,7 +65,10 @@ class _EpisodesPageState extends State<EpisodesPage> {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),
-                child: GridErrorTile(onRetry: _cubit.retry),
+                child: GridErrorTile(
+                  message: state.errorKind?.localizedMessage(context.strings),
+                  onRetry: _cubit.retry,
+                ),
               ),
             );
           }
@@ -97,7 +102,10 @@ class _EpisodesPageState extends State<EpisodesPage> {
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: GridErrorTile(onRetry: _cubit.retry),
+                      child: GridErrorTile(
+                  message: state.errorKind?.localizedMessage(context.strings),
+                  onRetry: _cubit.retry,
+                ),
                     ),
                   ),
               ],

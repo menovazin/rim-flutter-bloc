@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/locations/locations_cubit.dart';
+import '../../../core/error/app_error_kind.dart';
 import '../../../di/di.dart';
+import '../../../l10n/localization_helper.dart';
 import '../../../domain/entities/location.dart';
 import '../../../routes/router.dart';
 import '../../../themes/app_theme.dart';
@@ -20,7 +22,7 @@ class LocationsPage extends StatefulWidget {
 }
 
 class _LocationsPageState extends State<LocationsPage> {
-  final _cubit = locator<LocationsCubit>();
+  final _cubit = di.locationsCubit;
   final _scrollController = ScrollController();
 
   @override
@@ -61,7 +63,10 @@ class _LocationsPageState extends State<LocationsPage> {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),
-                child: GridErrorTile(onRetry: _cubit.retry),
+                child: GridErrorTile(
+                  message: state.errorKind?.localizedMessage(context.strings),
+                  onRetry: _cubit.retry,
+                ),
               ),
             );
           }
@@ -92,7 +97,10 @@ class _LocationsPageState extends State<LocationsPage> {
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: GridErrorTile(onRetry: _cubit.retry),
+                      child: GridErrorTile(
+                  message: state.errorKind?.localizedMessage(context.strings),
+                  onRetry: _cubit.retry,
+                ),
                     ),
                   ),
               ],

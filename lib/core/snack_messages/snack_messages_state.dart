@@ -8,7 +8,7 @@ import '../../di/di.dart';
 
 @singleton
 class SnackMessagesState extends BaseProvider {
-  static SnackMessagesState get _instance => locator();
+  static SnackMessagesState get _instance => di.snackMessagesState;
 
   final _messages = <String>[];
   String? message;

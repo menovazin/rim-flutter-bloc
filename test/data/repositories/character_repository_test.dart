@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_base_kit/flutter_base_kit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:init/api/constants/api_constants.dart';
@@ -59,6 +60,30 @@ void main() {
       final result = await repository.getCharacters(1);
 
       expect(result.hasNext, false);
+    });
+
+    test('throws ApiException on connection timeout', () async {
+      dioAdapter.onGet(
+        ApiConstants.characterPath,
+        (server) => server.throws(
+          408,
+          DioException(
+            requestOptions: RequestOptions(path: ApiConstants.characterPath),
+            type: DioExceptionType.connectionTimeout,
+          ),
+        ),
+      );
+
+      await expectLater(
+        repository.getCharacters(1),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.message,
+            'message',
+            'Internet Connection Error',
+          ),
+        ),
+      );
     });
   });
 }

@@ -17,5 +17,6 @@ abstract class CharactersState extends BaseStateI with _$CharactersState {
     @Default(true) bool hasNext,
     @Default(false) bool isLoadingMore,
     @Default(false) bool hasError,
+    AppErrorKind? errorKind,
   }) = _CharactersState;
 }

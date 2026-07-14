@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     final name = _nameController.text.trim();
     final token =
         'fake_${name.isEmpty ? 'guest' : name}_${DateTime.now().millisecondsSinceEpoch}';
-    await locator<TokenService>().saveToken(token);
+    await di.tokenService.saveToken(token);
 
     if (!mounted) return;
     await context.router.replaceAll([const ShellRoute()]);

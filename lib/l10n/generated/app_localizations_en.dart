@@ -99,5 +99,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorLoadDataMessage => 'Failed to load data';
 
   @override
+  String get errorNetwork => 'Check your connection and try again';
+
+  @override
+  String get errorServer => 'Server error. Please try again later';
+
+  @override
+  String get errorUnknown => 'Something went wrong. Please try again';
+
+  @override
   String get retryButton => 'Retry';
 }
