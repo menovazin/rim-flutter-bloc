@@ -62,6 +62,8 @@ dev_dependencies:
   mocktail: ^1.0.5
   http_mock_adapter: ^0.6.1
   bloc_test: ^10.0.0
+  sqflite_common_ffi: ^2.3.5
+  path_provider_platform_interface: ^2.1.2
 
 flutter:
   generate: true
