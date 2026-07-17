@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../services/storage/token/token_service.dart';
-import '../constants/api_constants.dart';
 import '../request_tracker/request_tracker.dart';
 
 @lazySingleton
@@ -24,17 +23,6 @@ class ApiInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    if (ApiConstants.baseUrlMyLocation == options.baseUrl) {
-      options.headers
-        ..clear()
-        ..addAll({
-          'accept-encoding': 'gzip, deflate, br, zstd',
-          'accept': '*/*',
-        });
-      if (_isLog) _logRequest(options);
-      return super.onRequest(options, handler);
-    }
-
     final token = await _tokenService.getToken();
     options.headers
       ..putIfAbsent('accept', () => '*/*')

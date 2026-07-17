@@ -1,37 +1,31 @@
 import '../../domain/entities/character.dart';
 import '../../utils/avatar_url_utils.dart';
+import '../api/dto/character_dto.dart';
 
-/// Maps JSON responses from Rick & Morty REST API to [Character] domain entities.
+/// Maps character DTOs from Rick & Morty REST API to [Character] domain entities.
 class CharacterMapper {
-  /// Parses a single character JSON object into a [Character].
-  static Character fromJson(Map<String, dynamic> json) {
-    final origin = json['origin'] as Map<String, dynamic>? ?? {};
-    final location = json['location'] as Map<String, dynamic>? ?? {};
-    final episodes = (json['episode'] as List?) ?? [];
+  static Character fromDto(CharacterDto dto) {
+    final episodes = dto.episode ?? const <String>[];
 
     return Character(
-      id: json['id'] as int? ?? 0,
-      name: json['name'] as String? ?? '',
-      status: json['status'] as String? ?? '',
-      species: json['species'] as String? ?? '',
-      type: json['type'] as String? ?? '',
-      gender: json['gender'] as String? ?? '',
-      image: AvatarUrlUtils.getCustomAvatarUrl(json['image'] as String? ?? ''),
-      originName: origin['name'] as String? ?? '',
-      originUrl: origin['url'] as String? ?? '',
-      locationName: location['name'] as String? ?? '',
-      locationUrl: location['url'] as String? ?? '',
+      id: dto.id ?? 0,
+      name: dto.name ?? '',
+      status: dto.status ?? '',
+      species: dto.species ?? '',
+      type: dto.type ?? '',
+      gender: dto.gender ?? '',
+      image: AvatarUrlUtils.getCustomAvatarUrl(dto.image ?? ''),
+      originName: dto.origin?.name ?? '',
+      originUrl: dto.origin?.url ?? '',
+      locationName: dto.location?.name ?? '',
+      locationUrl: dto.location?.url ?? '',
       episodeIds: episodes
-          .map((e) => int.tryParse(e.toString().split('/').last) ?? 0)
+          .map((e) => int.tryParse(e.split('/').last) ?? 0)
           .where((id) => id > 0)
           .toList(),
     );
   }
 
-  /// Parses a list of character JSON objects into a list of [Character].
-  static List<Character> fromJsonList(List<dynamic> jsonList) {
-    return jsonList
-        .map((e) => fromJson(e as Map<String, dynamic>))
-        .toList();
-  }
+  static List<Character> fromDtoList(List<CharacterDto> list) =>
+      list.map(fromDto).toList();
 }

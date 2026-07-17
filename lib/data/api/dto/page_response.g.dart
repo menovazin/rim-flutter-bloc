@@ -6,17 +6,25 @@ part of 'page_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PageResponse _$PageResponseFromJson(Map<String, dynamic> json) => PageResponse(
+PageResponse<T> _$PageResponseFromJson<T>(
+  Map<String, dynamic> json,
+  T Function(Object? json) fromJsonT,
+) =>
+    PageResponse<T>(
       info: json['info'] == null
           ? null
           : InfoResponse.fromJson(json['info'] as Map<String, dynamic>),
-      results: json['results'] as List<dynamic>? ?? [],
+      results:
+          (json['results'] as List<dynamic>?)?.map(fromJsonT).toList() ?? [],
     );
 
-Map<String, dynamic> _$PageResponseToJson(PageResponse instance) =>
+Map<String, dynamic> _$PageResponseToJson<T>(
+  PageResponse<T> instance,
+  Object? Function(T value) toJsonT,
+) =>
     <String, dynamic>{
       'info': instance.info,
-      'results': instance.results,
+      'results': instance.results.map(toJsonT).toList(),
     };
 
 InfoResponse _$InfoResponseFromJson(Map<String, dynamic> json) => InfoResponse(

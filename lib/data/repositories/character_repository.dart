@@ -16,7 +16,7 @@ class CharacterRepository extends RimBaseService {
     return errorParser(() async {
       final res = await _api.getCharacters(page);
       return PageResult<Character>(
-        items: CharacterMapper.fromJsonList(res.results),
+        items: CharacterMapper.fromDtoList(res.results),
         page: page,
         totalPages: res.info?.pages ?? page,
         hasNext: res.info?.next != null,

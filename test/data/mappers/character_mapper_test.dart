@@ -2,17 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:init/data/api/dto/character_dto.dart';
 import 'package:init/data/mappers/character_mapper.dart';
 import 'package:init/domain/entities/character.dart';
 
 void main() {
-  group('CharacterMapper.fromJson', () {
+  group('CharacterMapper.fromDto', () {
     // spec: rest-data-layer / Маппинг персонажа
 
     test('parses full character JSON', () async {
       final json = await _loadFixture('character_full.json');
 
-      final character = CharacterMapper.fromJson(json);
+      final character = CharacterMapper.fromDto(CharacterDto.fromJson(json));
 
       expect(character.id, 1);
       expect(character.name, 'Rick Sanchez');
@@ -40,7 +41,7 @@ void main() {
     test('handles missing origin and location', () async {
       final json = await _loadFixture('character_missing_origin.json');
 
-      final character = CharacterMapper.fromJson(json);
+      final character = CharacterMapper.fromDto(CharacterDto.fromJson(json));
 
       expect(character.originName, '');
       expect(character.originUrl, '');
@@ -52,7 +53,7 @@ void main() {
     test('handles missing episode array', () async {
       final json = await _loadFixture('character_no_episodes.json');
 
-      final character = CharacterMapper.fromJson(json);
+      final character = CharacterMapper.fromDto(CharacterDto.fromJson(json));
 
       expect(character.episodeIds, isEmpty);
     });
@@ -75,20 +76,23 @@ void main() {
         ],
       };
 
-      final character = CharacterMapper.fromJson(json);
+      final character = CharacterMapper.fromDto(CharacterDto.fromJson(json));
 
       expect(character.episodeIds, [5]);
     });
   });
 
-  group('CharacterMapper.fromJsonList', () {
+  group('CharacterMapper.fromDtoList', () {
+    // spec: rest-data-layer / Список без dynamic
     test('parses list of characters', () async {
       final fixtures = [
         await _loadFixture('character_full.json'),
         await _loadFixture('character_missing_origin.json'),
       ];
 
-      final characters = CharacterMapper.fromJsonList(fixtures);
+      final characters = CharacterMapper.fromDtoList(
+        fixtures.map(CharacterDto.fromJson).toList(),
+      );
 
       expect(characters.length, 2);
       expect(characters.first.id, 1);

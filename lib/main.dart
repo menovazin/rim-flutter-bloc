@@ -13,7 +13,7 @@ import 'core/settings/settings_state.dart';
 import 'core/snack_messages/snack_messages_view.dart';
 import 'di/di.dart';
 import 'l10n/localization_helper.dart';
-import 'models/enums/di_environment.dart';
+import 'di/models/di_environment.dart';
 import 'routes/observer/app_observer.dart';
 import 'routes/router.dart';
 

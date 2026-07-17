@@ -2,17 +2,20 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'page_response.g.dart';
 
-@JsonSerializable()
-class PageResponse {
+@JsonSerializable(genericArgumentFactories: true)
+class PageResponse<T> {
   final InfoResponse? info;
 
   @JsonKey(defaultValue: [])
-  final List<dynamic> results;
+  final List<T> results;
 
   const PageResponse({this.info, this.results = const []});
 
-  factory PageResponse.fromJson(Map<String, dynamic> json) =>
-      _$PageResponseFromJson(json);
+  factory PageResponse.fromJson(
+    Map<String, dynamic> json,
+    T Function(Object? json) fromJsonT,
+  ) =>
+      _$PageResponseFromJson(json, fromJsonT);
 }
 
 @JsonSerializable()

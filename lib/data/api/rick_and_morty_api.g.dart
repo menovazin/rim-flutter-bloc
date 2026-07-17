@@ -20,12 +20,12 @@ class _RickAndMortyApi implements RickAndMortyApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<PageResponse> getCharacters(int page) async {
+  Future<PageResponse<CharacterDto>> getCharacters(int page) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PageResponse>(
+    final _options = _setStreamType<PageResponse<CharacterDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -36,9 +36,12 @@ class _RickAndMortyApi implements RickAndMortyApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PageResponse _value;
+    late PageResponse<CharacterDto> _value;
     try {
-      _value = PageResponse.fromJson(_result.data!);
+      _value = PageResponse<CharacterDto>.fromJson(
+        _result.data!,
+        (json) => CharacterDto.fromJson(json as Map<String, dynamic>),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -47,12 +50,12 @@ class _RickAndMortyApi implements RickAndMortyApi {
   }
 
   @override
-  Future<PageResponse> getEpisodes(int page) async {
+  Future<PageResponse<EpisodeDto>> getEpisodes(int page) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PageResponse>(
+    final _options = _setStreamType<PageResponse<EpisodeDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -63,9 +66,12 @@ class _RickAndMortyApi implements RickAndMortyApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PageResponse _value;
+    late PageResponse<EpisodeDto> _value;
     try {
-      _value = PageResponse.fromJson(_result.data!);
+      _value = PageResponse<EpisodeDto>.fromJson(
+        _result.data!,
+        (json) => EpisodeDto.fromJson(json as Map<String, dynamic>),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -74,12 +80,12 @@ class _RickAndMortyApi implements RickAndMortyApi {
   }
 
   @override
-  Future<PageResponse> getLocations(int page) async {
+  Future<PageResponse<LocationDto>> getLocations(int page) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PageResponse>(
+    final _options = _setStreamType<PageResponse<LocationDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -90,9 +96,12 @@ class _RickAndMortyApi implements RickAndMortyApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PageResponse _value;
+    late PageResponse<LocationDto> _value;
     try {
-      _value = PageResponse.fromJson(_result.data!);
+      _value = PageResponse<LocationDto>.fromJson(
+        _result.data!,
+        (json) => LocationDto.fromJson(json as Map<String, dynamic>),
+      );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

@@ -7,6 +7,17 @@ import 'package:injectable/injectable.dart';
 
 import '../../di/di.dart';
 
+/// Tracks in-flight HTTP requests and resets Dio's [HttpClientAdapter] after
+/// the app is backgrounded, so keep-alive connections that died while the
+/// process was suspended are not reused on resume.
+///
+/// - Schedules a flush 1 minute after the app goes inactive/paused (once
+///   active requests finish).
+/// - Force-resets immediately if the app was backgrounded for more than 5
+///   minutes.
+///
+/// Wired from [ApiInterceptor] via [start]/[done]. Inherited from the
+/// flutter_base_kit template; not domain-specific to this app.
 @lazySingleton
 class RequestTracker with WidgetsBindingObserver {
   RequestTracker() {

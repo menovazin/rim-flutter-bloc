@@ -2,17 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:init/data/api/dto/episode_dto.dart';
 import 'package:init/data/mappers/episode_mapper.dart';
 import 'package:init/domain/entities/episode.dart';
 
 void main() {
-  group('EpisodeMapper.fromJson', () {
+  group('EpisodeMapper.fromDto', () {
     // spec: rest-data-layer / Маппинг эпизода
 
     test('parses full episode JSON', () async {
       final json = await _loadFixture('episode_full.json');
 
-      final episode = EpisodeMapper.fromJson(json);
+      final episode = EpisodeMapper.fromDto(EpisodeDto.fromJson(json));
 
       expect(episode.id, 1);
       expect(episode.name, 'Pilot');
@@ -24,7 +25,7 @@ void main() {
     test('handles missing characters array', () async {
       final json = await _loadFixture('episode_no_characters.json');
 
-      final episode = EpisodeMapper.fromJson(json);
+      final episode = EpisodeMapper.fromDto(EpisodeDto.fromJson(json));
 
       expect(episode.characterIds, isEmpty);
     });
@@ -42,20 +43,23 @@ void main() {
         ],
       };
 
-      final episode = EpisodeMapper.fromJson(json);
+      final episode = EpisodeMapper.fromDto(EpisodeDto.fromJson(json));
 
       expect(episode.characterIds, [10]);
     });
   });
 
-  group('EpisodeMapper.fromJsonList', () {
+  group('EpisodeMapper.fromDtoList', () {
+    // spec: rest-data-layer / Список без dynamic
     test('parses list of episodes', () async {
       final fixtures = [
         await _loadFixture('episode_full.json'),
         await _loadFixture('episode_no_characters.json'),
       ];
 
-      final episodes = EpisodeMapper.fromJsonList(fixtures);
+      final episodes = EpisodeMapper.fromDtoList(
+        fixtures.map(EpisodeDto.fromJson).toList(),
+      );
 
       expect(episodes.length, 2);
       expect(episodes.first.id, 1);

@@ -11,7 +11,4 @@ abstract class ApiConstants {
   static const characterPath = '/character';
   static const episodePath = '/episode';
   static const locationPath = '/location';
-
-
-  static const baseUrlMyLocation = 'http://ip-api.com';
 }

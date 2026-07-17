@@ -16,7 +16,7 @@ class LocationRepository extends RimBaseService {
     return errorParser(() async {
       final res = await _api.getLocations(page);
       return PageResult<Location>(
-        items: LocationMapper.fromJsonList(res.results),
+        items: LocationMapper.fromDtoList(res.results),
         page: page,
         totalPages: res.info?.pages ?? page,
         hasNext: res.info?.next != null,

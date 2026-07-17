@@ -52,8 +52,10 @@ app.*.map.json
 
 # AI Agent Skills (Matt Pocock skills, etc.)
 .agents/
+.claude/
 .cline/
 .clinerules/
+.cursor/
 .skills/
 design-refs/
 arch-refs/

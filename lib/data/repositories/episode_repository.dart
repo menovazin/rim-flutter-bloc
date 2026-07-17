@@ -16,7 +16,7 @@ class EpisodeRepository extends RimBaseService {
     return errorParser(() async {
       final res = await _api.getEpisodes(page);
       return PageResult<Episode>(
-        items: EpisodeMapper.fromJsonList(res.results),
+        items: EpisodeMapper.fromDtoList(res.results),
         page: page,
         totalPages: res.info?.pages ?? page,
         hasNext: res.info?.next != null,
