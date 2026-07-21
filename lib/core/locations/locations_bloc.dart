@@ -2,18 +2,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_base_kit/flutter_base_kit.dart';
 import 'package:injectable/injectable.dart';
 
-import '../error/app_error_kind.dart';
 import '../../data/repositories/location_repository.dart';
+import '../../domain/entities/location.dart';
+import '../base/paged_catalog_logic.dart';
 import 'locations_event.dart';
 import 'locations_state.dart';
 
 @injectable
 class LocationsBloc extends BaseBloc<LocationsEvent, LocationsState> {
   LocationsBloc(this._repository) : super(const LocationsState()) {
+    _logic = PagedCatalogLogic<Location>(fetch: _repository.getLocations);
     on<LocationsEvent>(_onEvent);
   }
 
   final LocationRepository _repository;
+  late final PagedCatalogLogic<Location> _logic;
 
   Future<void> _onEvent(
     LocationsEvent event,
@@ -27,101 +30,55 @@ class LocationsBloc extends BaseBloc<LocationsEvent, LocationsState> {
     );
   }
 
-  Future<void> _onLoadInitial(Emitter<LocationsState> emit) async {
-    if (state.items.isNotEmpty || state.statusLoading) return;
-    emit(state.copyWith(
-      status: StateStatus.loading,
-      hasError: false,
-      errorKind: null,
-    ));
-
-    try {
-      final result = await _repository.getLocations(1);
-      emit(state.copyWith(
-        status: StateStatus.loaded,
-        items: result.items,
-        page: 1,
-        hasNext: result.hasNext,
-        hasError: false,
-        errorKind: null,
-      ));
-    } catch (error) {
-      _handleError(error);
-      emit(state.copyWith(
-        status: StateStatus.error,
-        hasError: true,
-        errorKind: appErrorKindFrom(error),
-      ));
-    }
+  Future<void> _onLoadInitial(Emitter<LocationsState> emit) {
+    return _logic.loadInitial(
+      items: state.items,
+      statusLoading: state.statusLoading,
+      emit: (snap) => _apply(emit, snap),
+    );
   }
 
-  Future<void> _onLoadMore(Emitter<LocationsState> emit) async {
-    if (state.isLoadingMore || !state.hasNext || state.statusLoading) return;
-    emit(state.copyWith(
-      isLoadingMore: true,
-      hasError: false,
-      errorKind: null,
-    ));
-
-    final next = state.page + 1;
-    try {
-      final result = await _repository.getLocations(next);
-      emit(state.copyWith(
-        status: StateStatus.loaded,
-        items: [...state.items, ...result.items],
-        page: next,
-        hasNext: result.hasNext,
-        isLoadingMore: false,
-        hasError: false,
-        errorKind: null,
-      ));
-    } catch (error) {
-      _handleError(error);
-      emit(state.copyWith(
-        isLoadingMore: false,
-        hasError: true,
-        errorKind: appErrorKindFrom(error),
-      ));
-    }
+  Future<void> _onLoadMore(Emitter<LocationsState> emit) {
+    return _logic.loadMore(
+      items: state.items,
+      page: state.page,
+      hasNext: state.hasNext,
+      isLoadingMore: state.isLoadingMore,
+      statusLoading: state.statusLoading,
+      emit: (snap) => _apply(emit, snap),
+    );
   }
 
-  Future<void> _onRetry(Emitter<LocationsState> emit) async {
-    if (state.items.isEmpty) {
-      await _onLoadInitial(emit);
-    } else {
-      await _onLoadMore(emit);
-    }
+  Future<void> _onRetry(Emitter<LocationsState> emit) {
+    return _logic.retry(
+      items: state.items,
+      page: state.page,
+      hasNext: state.hasNext,
+      isLoadingMore: state.isLoadingMore,
+      statusLoading: state.statusLoading,
+      emit: (snap) => _apply(emit, snap),
+    );
   }
 
-  Future<void> _onRefresh(Emitter<LocationsState> emit) async {
-    emit(state.copyWith(
-      status: StateStatus.refresh,
-      items: [],
-      page: 1,
-      hasNext: true,
-      hasError: false,
-      errorKind: null,
-      isLoadingMore: false,
-    ));
+  Future<void> _onRefresh(Emitter<LocationsState> emit) {
+    return _logic.refresh(emit: (snap) => _apply(emit, snap));
+  }
 
-    try {
-      final result = await _repository.getLocations(1);
-      emit(state.copyWith(
-        status: StateStatus.loaded,
-        items: result.items,
-        page: 1,
-        hasNext: result.hasNext,
-        hasError: false,
-        errorKind: null,
-      ));
-    } catch (error) {
+  void _apply(Emitter<LocationsState> emit, PagedCatalogSnapshot<Location> snap) {
+    final error = snap.error;
+    if (error != null) {
+      // BaseBloc.handleError2 may emit an intermediate state before ours.
       _handleError(error);
-      emit(state.copyWith(
-        status: StateStatus.error,
-        hasError: true,
-        errorKind: appErrorKindFrom(error),
-      ));
     }
+    emit(state.copyWith(
+      status: snap.status,
+      items: snap.items,
+      page: snap.page,
+      hasNext: snap.hasNext,
+      isLoadingMore: snap.isLoadingMore,
+      hasError: snap.hasError,
+      errorKind: snap.errorKind,
+    ));
   }
 
   void _handleError(Object error) {

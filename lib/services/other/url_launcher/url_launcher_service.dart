@@ -14,7 +14,7 @@ class UrlLauncherService extends BaseService {
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
         uri = Uri.parse('http://$url');
       }
-      launchUrl(uri);
+      unawaited(launchUrl(uri));
     });
   }
 
@@ -40,7 +40,7 @@ class UrlLauncherService extends BaseService {
         }),
       );
 
-      launchUrl(emailLaunchUri);
+      unawaited(launchUrl(emailLaunchUri));
     });
   }
 

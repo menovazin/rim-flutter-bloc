@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/character.dart';
+import '../../themes/extensions/custom_designs.dart';
 
 /// UI helpers for a character's `status` field (Alive / Dead / unknown).
 extension CharacterStatusX on Character {
-  /// Status indicator color: green (Alive), red (Dead), grey (unknown).
+  /// Status indicator color from [CustomDesigns] palette.
   Color get statusColor {
     switch (status.toLowerCase()) {
       case 'alive':
-        return const Color(0xFF34E27A);
+        return CustomDesigns.statusAliveColor;
       case 'dead':
-        return const Color(0xFFE5484D);
+        return CustomDesigns.statusDeadColor;
       default:
-        return const Color(0xFF9DB5B1);
+        return CustomDesigns.statusUnknownColor;
+    }
+  }
+
+  /// Theme-aware status color (same palette as [statusColor] today).
+  Color statusColorOf(CustomDesigns designs) {
+    switch (status.toLowerCase()) {
+      case 'alive':
+        return designs.statusAlive;
+      case 'dead':
+        return designs.statusDead;
+      default:
+        return designs.statusUnknown;
     }
   }
 }

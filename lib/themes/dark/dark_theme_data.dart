@@ -197,6 +197,24 @@ ThemeData _darkThemeData({String? fontFamily}) {
     canvasColor: design.primary,
     textButtonTheme: TextButtonThemeData(style: styleFrom),
     elevatedButtonTheme: ElevatedButtonThemeData(style: styleFrom),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: design.surface,
+      labelStyle: TextStyle(color: design.textSecondary),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(
+          color: design.textSecondary.withValues(alpha: 0.3),
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: design.primary),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
     colorScheme: colorScheme.copyWith(
       surface: design.primary,
     ),

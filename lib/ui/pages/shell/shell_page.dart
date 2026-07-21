@@ -124,7 +124,7 @@ class _Menu extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Rick & Morty',
+                      context.strings.loginTitle,
                       style: context.textTheme.titleMedium?.copyWith(
                         color: designs.textPrimary,
                         fontWeight: FontWeight.w700,

@@ -25,7 +25,7 @@ Future<void> main() async {
 
   await KitInitializer.initialize();
 
-  LogsState.instance.initialize();
+  unawaited(LogsState.instance.initialize());
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

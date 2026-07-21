@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../../../di/di.dart';
+import '../../../l10n/localization_helper.dart';
 import '../../../routes/router.dart';
 import '../../../themes/app_theme.dart';
 
@@ -53,7 +54,7 @@ class _SplashPageState extends State<SplashPage> {
             Icon(Icons.science_outlined, size: 96, color: designs.primary),
             const SizedBox(height: 24),
             Text(
-              'Rick & Morty',
+              context.strings.loginTitle,
               style: context.textTheme.headlineMedium?.copyWith(
                 color: designs.textPrimary,
                 fontWeight: FontWeight.bold,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,7 @@ class _CharactersPageState extends State<CharactersPage> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
-    _bloc.close();
+    unawaited(_bloc.close());
     super.dispose();
   }
 
@@ -76,6 +78,12 @@ class _CharactersPageState extends State<CharactersPage> {
             );
           }
 
+          if (!state.isBusy &&
+              !state.hasError &&
+              state.items.isEmpty) {
+            return Center(child: Text(context.strings.emptyCharacters));
+          }
+
           final crossAxisCount = context.gridCrossAxisCount;
           return RefreshIndicator(
             onRefresh: () async {
@@ -95,8 +103,10 @@ class _CharactersPageState extends State<CharactersPage> {
                       childAspectRatio: 0.72,
                     ),
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) =>
-                          _CharacterCard(character: state.items[index]),
+                      (context, index) => _CharacterCard(
+                        key: ValueKey(state.items[index].id),
+                        character: state.items[index],
+                      ),
                       childCount: state.items.length,
                     ),
                   ),
@@ -113,10 +123,11 @@ class _CharactersPageState extends State<CharactersPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: GridErrorTile(
-                  message: state.errorKind?.localizedMessage(context.strings),
-                  onRetry: () =>
-                      _bloc.add(const CharactersEvent.retryRequested()),
-                ),
+                        message:
+                            state.errorKind?.localizedMessage(context.strings),
+                        onRetry: () =>
+                            _bloc.add(const CharactersEvent.retryRequested()),
+                      ),
                     ),
                   ),
               ],
@@ -131,86 +142,90 @@ class _CharactersPageState extends State<CharactersPage> {
 class _CharacterCard extends StatelessWidget {
   final Character character;
 
-  const _CharacterCard({required this.character});
+  const _CharacterCard({super.key, required this.character});
 
   @override
   Widget build(BuildContext context) {
     final designs = context.designs;
-    return GestureDetector(
-      onTap: () => context.router.push(
-        CharacterDetailRoute(character: character),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: designs.surface,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: CachedNetworkImage(
-                imageUrl: character.image,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => ColoredBox(
-                  color: designs.background,
-                  child: const Center(
-                    child: SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2),
+    return RepaintBoundary(
+      child: GestureDetector(
+        onTap: () {
+          unawaited(
+            context.router.push(CharacterDetailRoute(character: character)),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: designs.surface,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(12),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: character.image,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => ColoredBox(
+                      color: designs.background,
+                    ),
+                    errorWidget: (context, url, error) => ColoredBox(
+                      color: designs.background,
+                      child: Icon(
+                        Icons.broken_image,
+                        color: designs.textSecondary,
+                      ),
                     ),
                   ),
-                ),
-                errorWidget: (context, url, error) => ColoredBox(
-                  color: designs.background,
-                  child: Icon(Icons.broken_image, color: designs.textSecondary),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    character.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.titleSmall?.copyWith(
-                      color: designs.textPrimary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Container(
-                        width: 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: character.statusColor,
-                          shape: BoxShape.circle,
-                        ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      character.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.textTheme.titleSmall?.copyWith(
+                        color: designs.textPrimary,
+                        fontWeight: FontWeight.w700,
                       ),
-                      const SizedBox(width: 6),
-                      Expanded(
-                        child: Text(
-                          '${character.status} • ${character.species}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: designs.textSecondary,
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: character.statusColorOf(designs),
+                            shape: BoxShape.circle,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            '${character.status} • ${character.species}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: designs.textSecondary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

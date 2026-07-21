@@ -285,6 +285,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry'**
   String get retryButton;
+
+  /// No description provided for @emptyCharacters.
+  ///
+  /// In en, this message translates to:
+  /// **'No characters yet'**
+  String get emptyCharacters;
+
+  /// No description provided for @emptyEpisodes.
+  ///
+  /// In en, this message translates to:
+  /// **'No episodes yet'**
+  String get emptyEpisodes;
+
+  /// No description provided for @emptyLocations.
+  ///
+  /// In en, this message translates to:
+  /// **'No locations yet'**
+  String get emptyLocations;
 }
 
 class _AppLocalizationsDelegate

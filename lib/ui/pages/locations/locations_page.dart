@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +41,7 @@ class _LocationsPageState extends State<LocationsPage> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
-    _bloc.close();
+    unawaited(_bloc.close());
     super.dispose();
   }
 
@@ -57,7 +59,6 @@ class _LocationsPageState extends State<LocationsPage> {
       child: BlocBuilder<LocationsBloc, LocationsState>(
         builder: (context, state) {
           if (state.isBusy && state.items.isEmpty) {
-
             return const Center(child: CircularProgressIndicator());
           }
 
@@ -74,6 +75,10 @@ class _LocationsPageState extends State<LocationsPage> {
             );
           }
 
+          if (!state.isBusy && !state.hasError && state.items.isEmpty) {
+            return Center(child: Text(context.strings.emptyLocations));
+          }
+
           return RefreshIndicator(
             onRefresh: () async {
               _bloc.add(const LocationsEvent.refreshRequested());
@@ -86,8 +91,10 @@ class _LocationsPageState extends State<LocationsPage> {
                   padding: const EdgeInsets.all(12),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) =>
-                          _LocationTile(location: state.items[index]),
+                      (context, index) => _LocationTile(
+                        key: ValueKey(state.items[index].id),
+                        location: state.items[index],
+                      ),
                       childCount: state.items.length,
                     ),
                   ),
@@ -104,10 +111,11 @@ class _LocationsPageState extends State<LocationsPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: GridErrorTile(
-                  message: state.errorKind?.localizedMessage(context.strings),
-                  onRetry: () =>
-                      _bloc.add(const LocationsEvent.retryRequested()),
-                ),
+                        message:
+                            state.errorKind?.localizedMessage(context.strings),
+                        onRetry: () =>
+                            _bloc.add(const LocationsEvent.retryRequested()),
+                      ),
                     ),
                   ),
               ],
@@ -122,44 +130,49 @@ class _LocationsPageState extends State<LocationsPage> {
 class _LocationTile extends StatelessWidget {
   final Location location;
 
-  const _LocationTile({required this.location});
+  const _LocationTile({super.key, required this.location});
 
   @override
   Widget build(BuildContext context) {
     final designs = context.designs;
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: designs.surface,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        leading: CircleAvatar(
-          backgroundColor: designs.secondary.withValues(alpha: 0.18),
-          child: Icon(location.type.locationIcon, color: designs.secondary),
+    return RepaintBoundary(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          color: designs.surface,
+          borderRadius: BorderRadius.circular(12),
         ),
-        title: Text(
-          location.name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: context.textTheme.titleSmall?.copyWith(
-            color: designs.textPrimary,
-            fontWeight: FontWeight.w700,
+        child: ListTile(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          leading: CircleAvatar(
+            backgroundColor: designs.secondary.withValues(alpha: 0.18),
+            child: Icon(location.type.locationIcon, color: designs.secondary),
           ),
-        ),
-        subtitle: Text(
-          '${location.type.isEmpty ? 'Unknown' : location.type} • '
-          '${location.dimension.isEmpty ? 'Unknown' : location.dimension}',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: context.textTheme.bodySmall?.copyWith(
-            color: designs.textSecondary,
+          title: Text(
+            location.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: context.textTheme.titleSmall?.copyWith(
+              color: designs.textPrimary,
+              fontWeight: FontWeight.w700,
+            ),
           ),
-        ),
-        trailing: Icon(Icons.chevron_right, color: designs.textSecondary),
-        onTap: () => context.router.push(
-          LocationDetailRoute(location: location),
+          subtitle: Text(
+            '${location.type.isEmpty ? 'Unknown' : location.type} • '
+            '${location.dimension.isEmpty ? 'Unknown' : location.dimension}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: context.textTheme.bodySmall?.copyWith(
+              color: designs.textSecondary,
+            ),
+          ),
+          trailing: Icon(Icons.chevron_right, color: designs.textSecondary),
+          onTap: () {
+            unawaited(
+              context.router.push(LocationDetailRoute(location: location)),
+            );
+          },
         ),
       ),
     );

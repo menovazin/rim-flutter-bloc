@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +41,7 @@ class _EpisodesPageState extends State<EpisodesPage> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
-    _bloc.close();
+    unawaited(_bloc.close());
     super.dispose();
   }
 
@@ -76,6 +78,10 @@ class _EpisodesPageState extends State<EpisodesPage> {
             );
           }
 
+          if (!state.isBusy && !state.hasError && state.items.isEmpty) {
+            return Center(child: Text(context.strings.emptyEpisodes));
+          }
+
           return RefreshIndicator(
             onRefresh: () async {
               _bloc.add(const EpisodesEvent.refreshRequested());
@@ -88,8 +94,10 @@ class _EpisodesPageState extends State<EpisodesPage> {
                   padding: const EdgeInsets.all(12),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) =>
-                          _EpisodeTile(episode: state.items[index]),
+                      (context, index) => _EpisodeTile(
+                        key: ValueKey(state.items[index].id),
+                        episode: state.items[index],
+                      ),
                       childCount: state.items.length,
                     ),
                   ),
@@ -109,10 +117,11 @@ class _EpisodesPageState extends State<EpisodesPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: GridErrorTile(
-                  message: state.errorKind?.localizedMessage(context.strings),
-                  onRetry: () =>
-                      _bloc.add(const EpisodesEvent.retryRequested()),
-                ),
+                        message:
+                            state.errorKind?.localizedMessage(context.strings),
+                        onRetry: () =>
+                            _bloc.add(const EpisodesEvent.retryRequested()),
+                      ),
                     ),
                   ),
               ],
@@ -127,7 +136,7 @@ class _EpisodesPageState extends State<EpisodesPage> {
 class _EpisodeTile extends StatelessWidget {
   final Episode episode;
 
-  const _EpisodeTile({required this.episode});
+  const _EpisodeTile({super.key, required this.episode});
 
   @override
   Widget build(BuildContext context) {
@@ -135,62 +144,67 @@ class _EpisodeTile extends StatelessWidget {
     final s = episode.episodeCode.season;
     final e = episode.episodeCode.episodeNumber;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: designs.surface,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        leading: Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: designs.primary.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'S${s.toString().padLeft(2, '0')}',
-                style: context.textTheme.labelSmall?.copyWith(
-                  color: designs.primary,
-                  fontWeight: FontWeight.w700,
-                  height: 1,
+    return RepaintBoundary(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          color: designs.surface,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: ListTile(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          leading: Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: designs.primary.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'S${s.toString().padLeft(2, '0')}',
+                  style: context.textTheme.labelSmall?.copyWith(
+                    color: designs.primary,
+                    fontWeight: FontWeight.w700,
+                    height: 1,
+                  ),
                 ),
-              ),
-              Text(
-                'E${e.toString().padLeft(2, '0')}',
-                style: context.textTheme.labelSmall?.copyWith(
-                  color: designs.primary.withValues(alpha: 0.6),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 10,
-                  height: 1.2,
+                Text(
+                  'E${e.toString().padLeft(2, '0')}',
+                  style: context.textTheme.labelSmall?.copyWith(
+                    color: designs.primary.withValues(alpha: 0.6),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 10,
+                    height: 1.2,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        title: Text(
-          episode.name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: context.textTheme.titleSmall?.copyWith(
-            color: designs.textPrimary,
-            fontWeight: FontWeight.w700,
+          title: Text(
+            episode.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: context.textTheme.titleSmall?.copyWith(
+              color: designs.textPrimary,
+              fontWeight: FontWeight.w700,
+            ),
           ),
-        ),
-        subtitle: Text(
-          episode.airDate,
-          style: context.textTheme.bodySmall?.copyWith(
-            color: designs.textSecondary,
+          subtitle: Text(
+            episode.airDate,
+            style: context.textTheme.bodySmall?.copyWith(
+              color: designs.textSecondary,
+            ),
           ),
-        ),
-        trailing: Icon(Icons.chevron_right, color: designs.textSecondary),
-        onTap: () => context.router.push(
-          EpisodeDetailRoute(episode: episode),
+          trailing: Icon(Icons.chevron_right, color: designs.textSecondary),
+          onTap: () {
+            unawaited(
+              context.router.push(EpisodeDetailRoute(episode: episode)),
+            );
+          },
         ),
       ),
     );

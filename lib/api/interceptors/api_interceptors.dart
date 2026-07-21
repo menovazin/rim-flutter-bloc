@@ -3,11 +3,16 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../services/storage/token/token_service.dart';
 import '../request_tracker/request_tracker.dart';
 
+/// Attaches Bearer token when present.
+///
+/// See [docs/adr/0002-fake-login-token-scope.md]: token is a client-side
+/// session gate only; backend may ignore JWT. No 401 → logout flow yet.
 @lazySingleton
 class ApiInterceptor extends Interceptor {
   final TokenService _tokenService;
@@ -57,7 +62,10 @@ class ApiInterceptor extends Interceptor {
   void _logRequest(RequestOptions options) {
     final data = options.data;
     final query = options.queryParameters;
-    final headers = options.headers;
+    final headers = Map<String, dynamic>.from(options.headers);
+    if (headers.containsKey('Authorization')) {
+      headers['Authorization'] = 'Bearer ***';
+    }
 
     if (data is FormData) {
       for (final field in data.fields) {
@@ -77,4 +85,4 @@ class ApiInterceptor extends Interceptor {
   }
 }
 
-bool get _isLog => true;
+bool get _isLog => kDebugMode;

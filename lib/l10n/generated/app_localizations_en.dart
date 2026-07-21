@@ -109,4 +109,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retryButton => 'Retry';
+
+  @override
+  String get emptyCharacters => 'No characters yet';
+
+  @override
+  String get emptyEpisodes => 'No episodes yet';
+
+  @override
+  String get emptyLocations => 'No locations yet';
 }

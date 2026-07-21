@@ -46,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final designs = context.designs;
+    final textTheme = context.textTheme;
     return Scaffold(
       backgroundColor: designs.background,
       body: SafeArea(
@@ -65,9 +66,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    'Rick & Morty',
+                    context.strings.loginTitle,
                     textAlign: TextAlign.center,
-                    style: context.textTheme.headlineMedium?.copyWith(
+                    style: textTheme.headlineMedium?.copyWith(
                       color: designs.textPrimary,
                       fontWeight: FontWeight.w700,
                     ),
@@ -76,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     context.strings.loginSubtitle,
                     textAlign: TextAlign.center,
-                    style: context.textTheme.bodyMedium?.copyWith(
+                    style: textTheme.bodyMedium?.copyWith(
                       color: designs.textSecondary,
                     ),
                   ),
@@ -85,33 +86,18 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _nameController,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => _onLogin(),
-                    style: TextStyle(color: designs.textPrimary),
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: designs.textPrimary,
+                    ),
                     decoration: InputDecoration(
                       labelText: context.strings.loginNameLabel,
-                      labelStyle: TextStyle(color: designs.textSecondary),
-                      filled: true,
-                      fillColor: designs.surface,
                       prefixIcon: Icon(
                         Icons.person_outline,
                         color: designs.textSecondary,
                       ),
-                      // React: input rounded-md (8px), border-input.
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                          color: designs.textSecondary.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: designs.primary),
-                      ),
-
                     ),
                   ),
                   const SizedBox(height: 24),
-                  // React: Button size=lg -> h-10, rounded-md (8px),
-                  // text-sm (14px) font-medium (500), px-8.
                   SizedBox(
                     height: 48,
                     child: ElevatedButton(
@@ -132,14 +118,13 @@ class _LoginPageState extends State<LoginPage> {
                             )
                           : Text(
                               context.strings.loginSignInButton,
-                              style: const TextStyle(
-                                fontSize: 14,
+                              style: textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.w500,
+                                color: designs.onPrimary,
                               ),
                             ),
                     ),
                   ),
-
                 ],
               ),
             ),

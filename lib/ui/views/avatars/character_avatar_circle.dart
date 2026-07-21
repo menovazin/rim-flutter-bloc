@@ -23,16 +23,7 @@ class CharacterAvatarCircle extends StatelessWidget {
         child: CachedNetworkImage(
           imageUrl: url,
           fit: BoxFit.cover,
-          placeholder: (_, __) => ColoredBox(
-            color: designs.surface,
-            child: const Center(
-              child: SizedBox(
-                width: 16,
-                height: 16,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              ),
-            ),
-          ),
+          placeholder: (_, __) => ColoredBox(color: designs.surface),
           errorWidget: (_, __, ___) => ColoredBox(
             color: designs.surface,
             child: Icon(Icons.person, size: 24, color: designs.textSecondary),

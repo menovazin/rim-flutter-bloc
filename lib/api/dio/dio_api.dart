@@ -18,11 +18,12 @@ abstract class DioModule {
       ..options.connectTimeout = const Duration(seconds: 10)
       ..options.receiveTimeout = const Duration(seconds: 10)
       ..interceptors.addAll([
-        PrettyDioLogger(
-          requestHeader: false,
-          requestBody: false,
-          responseBody: false,
-        ),
+        if (kDebugMode)
+          PrettyDioLogger(
+            requestHeader: false,
+            requestBody: false,
+            responseBody: false,
+          ),
         interceptor,
       ]);
   }

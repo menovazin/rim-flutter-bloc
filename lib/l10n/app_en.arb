@@ -52,5 +52,8 @@
     "errorNetwork": "Check your connection and try again",
     "errorServer": "Server error. Please try again later",
     "errorUnknown": "Something went wrong. Please try again",
-    "retryButton": "Retry"
+    "retryButton": "Retry",
+    "emptyCharacters": "No characters yet",
+    "emptyEpisodes": "No episodes yet",
+    "emptyLocations": "No locations yet"
 }

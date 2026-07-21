@@ -69,7 +69,7 @@ class CharacterDetailPage extends StatelessWidget {
                     width: 12,
                     height: 12,
                     decoration: BoxDecoration(
-                      color: character.statusColor,
+                      color: character.statusColorOf(designs),
                       shape: BoxShape.circle,
                     ),
                   ),
