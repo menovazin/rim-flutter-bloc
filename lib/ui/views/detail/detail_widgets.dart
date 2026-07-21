@@ -6,12 +6,27 @@ import '../../../themes/app_theme.dart';
 class DetailInfoRow extends StatelessWidget {
   final String label;
   final String value;
+  final Widget? leading;
 
-  const DetailInfoRow({super.key, required this.label, required this.value});
+  const DetailInfoRow({
+    super.key,
+    required this.label,
+    required this.value,
+    this.leading,
+  });
 
   @override
   Widget build(BuildContext context) {
     final designs = context.designs;
+    final valueStyle = context.textTheme.bodyMedium?.copyWith(
+      color: designs.textPrimary,
+      fontWeight: FontWeight.w600,
+    );
+    final valueText = Text(
+      value.isEmpty ? '—' : value,
+      style: valueStyle,
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -27,13 +42,15 @@ class DetailInfoRow extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text(
-              value.isEmpty ? '—' : value,
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: designs.textPrimary,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: leading == null
+                ? valueText
+                : Row(
+                    children: [
+                      leading!,
+                      const SizedBox(width: 6),
+                      Expanded(child: valueText),
+                    ],
+                  ),
           ),
         ],
       ),

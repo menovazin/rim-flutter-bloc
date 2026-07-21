@@ -88,7 +88,12 @@ class CharacterDetailPage extends StatelessWidget {
                 DetailInfoRow(label: context.strings.detailType, value: character.type),
               DetailInfoRow(
                 label: context.strings.detailGender,
-                value: '${character.genderSymbol}  ${character.gender}',
+                value: character.gender,
+                leading: Icon(
+                  character.genderIcon,
+                  size: 18,
+                  color: designs.textPrimary,
+                ),
               ),
               DetailInfoRow(label: context.strings.detailOrigin, value: character.originName),
               DetailInfoRow(label: context.strings.detailLocation, value: character.locationName),
